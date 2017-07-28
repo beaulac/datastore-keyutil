@@ -1,7 +1,7 @@
 import { DatastoreInt } from '@google-cloud/datastore/entity';
 import { isNumber, isObject, isString } from 'util';
 
-const POSITIVE_NUMERIC_REGEX = /^[0-9]+$/;
+const isPositiveAndNumeric = (numstr: string) => /^\d+$/.test(numstr);
 
 export type DatastoreIdLike = string | number | DatastoreInt;
 
@@ -23,5 +23,5 @@ function isDatastoreInt_(id: any): id is DatastoreInt {
 }
 
 export function isPositiveIntString(str: DatastoreIdLike): boolean {
-    return isString(str) && POSITIVE_NUMERIC_REGEX.test(str);
+    return isString(str) && isPositiveAndNumeric(str);
 }

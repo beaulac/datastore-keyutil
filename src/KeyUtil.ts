@@ -1,15 +1,13 @@
 import * as Datastore from '@google-cloud/datastore';
-import { DatastoreInt, DatastoreKey, ObjOrPayload } from '@google-cloud/datastore/entity';
-import * as debug from 'debug';
-import { isString } from 'util';
+import { DatastoreKey, ObjOrPayload } from '@google-cloud/datastore/entity';
 import { areKeysEqual } from './areKeysEqual';
 import { base64ify, pluralize } from './higher.order.helpers';
-import { DatastoreIdLike, idToString, isPositiveIntString } from './id.string.conversion';
-import { DatastoreKeylike, isKeylike } from './isKeylike';
+import { DatastoreIdLike, idToString } from './id.string.conversion';
+import { DatastoreKeylike } from './isKeylike';
+import { KeyBuilder } from './KeyBuilder';
+import { KeyExtractor } from './KeyExtractor';
 import { keyToUID } from './keyToUid';
 import { defaultOptions, KeyUtilOptions } from './KeyUtilOptions';
-
-const _DEBUG = debug('datastore-keyutil');
 
 export interface KeyUtilAugmentedDatastore extends Datastore {
     keyUtil: KeyUtil
@@ -35,11 +33,8 @@ export class KeyUtil {
     public mapToParentUIDs = pluralize(this.parentUidFor, this);
     public mapToBase64ParentUIDs = pluralize(this.base64ParentUIDFor, this);
 
-    // Maybe there's a prettier way of getting a handle on these:
-    private _DatastoreInteger = this.datastore.int(0).constructor;
-    private isDsInt = (x: any): x is DatastoreInt => x instanceof this._DatastoreInteger;
-    private _DatastoreKey = this.datastore.key({path: []}).constructor;
-    private isKey = (k: any): k is DatastoreKey => k instanceof this._DatastoreKey;
+    private keyBuilder: KeyBuilder;
+    private keyExtractor: KeyExtractor;
     private errorFn: (msg: string, data?: any) => never;
 
     constructor(private datastore: Datastore, options?: KeyUtilOptions) {
@@ -48,6 +43,9 @@ export class KeyUtil {
             : defaultOptions();
 
         this.errorFn = options.errorFn;
+
+        this.keyBuilder = new KeyBuilder(this.datastore, this.errorFn);
+        this.keyExtractor = new KeyExtractor(this.datastore, this.errorFn);
 
         if (options.embed) {
             (datastore as KeyUtilAugmentedDatastore).keyUtil = this;
@@ -74,14 +72,7 @@ export class KeyUtil {
      * @returns {DatastoreKey}
      */
     public buildKey(keyPath: DatastoreIdLike[]): DatastoreKey {
-        if (!keyPath) {
-            return this.errorFn('key.noPath', keyPath);
-        }
-        if (typeof keyPath.map !== 'function') {
-            return this.errorFn('key.invalidPath', keyPath);
-        }
-
-        return this.datastore.key(keyPath.map((e, i) => this._parsePathElement(e, i)));
+        return this.keyBuilder.buildNumericKey(keyPath);
     }
 
     /**
@@ -96,14 +87,7 @@ export class KeyUtil {
      * @returns {DatastoreKey}
      */
     public buildNamedKey(keyPath: string[]): DatastoreKey {
-        if (!keyPath) {
-            return this.errorFn('key.noPath', keyPath);
-        }
-        if (keyPath.every(isString)) {
-            return this.datastore.key(keyPath);
-        } else {
-            return this.errorFn('key.invalidName');
-        }
+        return this.keyBuilder.buildNamedKey(keyPath);
     }
 
     /**
@@ -117,13 +101,7 @@ export class KeyUtil {
      * @returns {DatastoreKey}
      */
     public coerceKeylikeToKey(keylike: DatastoreKeylike): DatastoreKey {
-        if (this.isKey(keylike)) {
-            return keylike as DatastoreKey;
-        }
-        if (!isKeylike(keylike)) {
-            return this.errorFn('key.notKeylike', keylike);
-        }
-        return this.buildKey(keylike.path);
+        return this.keyExtractor.coerceKeylikeToKey(keylike, path => this.keyBuilder.buildNumericKey(path));
     }
 
     /**
@@ -140,13 +118,7 @@ export class KeyUtil {
      * @returns {DatastoreKey}
      */
     public extractKey(entity: DatastoreKeyExtractable): DatastoreKey {
-        if (!entity) {
-            return this.errorFn('key.nonExtractable', entity);
-        }
-        if (this.isKey(entity)) {
-            return entity;
-        }
-        return entity[this.KEY_SYMBOL] || entity.key;
+        return this.keyExtractor.extractKey(entity);
     }
 
     public idOf(entity: DatastoreKeyExtractable): string {
@@ -206,21 +178,6 @@ export class KeyUtil {
 
     public indexById<E extends DatastoreKeyExtractable>(entity: E | E[]): [string, E] | [string, E][] {
         return Array.isArray(entity) ? entity.map(this._doIndexById) : this._doIndexById(entity);
-    }
-
-    private _parsePathElement(pathElement: DatastoreIdLike, idx: number): DatastoreIdLike {
-        return (idx % 2) ? this._parseId(pathElement) : pathElement;
-    }
-
-    private _parseId(pathElement: DatastoreIdLike): DatastoreInt {
-        if (this.isDsInt(pathElement)) { // Guard clause, don't double-convert.
-            _DEBUG('Was passed a pre-converted datastore int: ', pathElement);
-            return pathElement;
-        }
-        if (isPositiveIntString(pathElement) || Number.isSafeInteger(pathElement as number)) {
-            return this.datastore.int(pathElement);
-        }
-        return this.errorFn('key.invalidId', pathElement);
     }
 
     private _doIndexById<E extends DatastoreKeyExtractable>(entity: E): [string, E] {

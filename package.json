@@ -2,14 +2,14 @@
   "name": "datastore-keyutil",
   "version": "0.0.1",
   "description": "Key utility for google-cloud datastore.",
-  "main": "js/index.js",
+  "main": "dist/index.js",
   "types": "ts/index.d.ts",
   "author": "Antoine Beauvais-Lacasse <antoine.beaulac@gmail.com>",
   "license": "ISC",
   "scripts": {
     "prepublish": "npm run build",
     "build": "tsc",
-    "test": "DEBUG='datastore-keyutil' mocha --compilers ts:ts-node/register test/*test.ts",
+    "test": "mocha --compilers ts:ts-node/register test/*test.ts",
     "benchmark": "node test/benchmark.js"
   },
   "dependencies": {
