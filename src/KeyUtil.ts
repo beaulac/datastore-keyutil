@@ -1,8 +1,8 @@
 import * as Datastore from '@google-cloud/datastore';
-import { DatastoreKey, ObjOrPayload } from '@google-cloud/datastore/entity';
+import { DatastoreKey, DatastoreKeyPath, ObjOrPayload } from '@google-cloud/datastore/entity';
 import { areKeysEqual } from './areKeysEqual';
 import { base64ify, pluralize } from './higher.order.helpers';
-import { DatastoreIdLike, idToString } from './id.string.conversion';
+import { idToString } from './id.string.conversion';
 import { DatastoreKeylike } from './isKeylike';
 import { KeyBuilder } from './KeyBuilder';
 import { KeyExtractor } from './KeyExtractor';
@@ -60,6 +60,21 @@ export class KeyUtil {
     }
 
     /**
+     * Builds MIXED keys (keys with IDs OR names).
+     *
+     * @param {Array.<DatastoreIdLike>} keyPath - Has form [ Kind, Identifier, Kind, Identifier, ... ]
+     *
+     * @throws 'key.noPath' when keyPath is falsy.
+     * @throws 'key.invalidPath' when keyPath is non-mappable.
+     * @throws 'key.invalidIdentifier' when keyPath contains invalid ID or name.
+     *
+     * @returns {DatastoreKey}
+     */
+    public buildMixedKey(keyPath: DatastoreKeyPath): DatastoreKey {
+        return this.keyBuilder.buildMixedKey(keyPath);
+    }
+
+    /**
      * Builds NUMERIC keys (keys with IDs, not names).
      * Named keys should be created with {@link buildNamedKey}.
      *
@@ -71,7 +86,7 @@ export class KeyUtil {
      *
      * @returns {DatastoreKey}
      */
-    public buildKey(keyPath: DatastoreIdLike[]): DatastoreKey {
+    public buildKey(keyPath: DatastoreKeyPath): DatastoreKey {
         return this.keyBuilder.buildNumericKey(keyPath);
     }
 
@@ -86,7 +101,7 @@ export class KeyUtil {
      *
      * @returns {DatastoreKey}
      */
-    public buildNamedKey(keyPath: string[]): DatastoreKey {
+    public buildNamedKey(keyPath: DatastoreKeyPath): DatastoreKey {
         return this.keyBuilder.buildNamedKey(keyPath);
     }
 

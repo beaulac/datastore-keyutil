@@ -5,7 +5,7 @@ import { DatastoreKey } from '@google-cloud/datastore/entity';
  * Useful for using {@link DatastoreKey}s as Object keys.
  *
  * @param {DatastoreKey} key
- * @returns {string} - Simple, string representation of a unique key. '' if key is falsy.
+ * @returns {string} - Unique string representation of key. '' if key is falsy.
  */
 export function keyToUID(key?: DatastoreKey): string {
     if (key && key.kind) {
@@ -25,7 +25,7 @@ export function keyToUID(key?: DatastoreKey): string {
  * Turns a key into its GQL string representation
  *
  * @param {DatastoreKey} key
- * @returns {string|undefined} - Simple, string representation of a unique key. '' if key is falsy.
+ * @returns {string} - Unique string representation of key. '' if key is falsy.
  */
 export function keyToGQL(key: DatastoreKey | undefined): string {
     if (key && key.kind) {

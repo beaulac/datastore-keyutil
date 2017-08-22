@@ -19,12 +19,43 @@ describe('The Key Utility', function () {
     });
 
     describe('#buildKey', () => {
+        it('allows numeric IDs', () => {
+            keyUtility.buildKey(['aKind', 123]).should.have.nested.property('path[1]', '123');
+        });
         it('rejects non-numeric IDs', () => {
             (() => keyUtility.buildKey(['aKind', 'anInvalidID'])).should.throw('key.invalidId');
         });
 
         it('does not double convert datastore ints', () => {
             const builtKey = keyUtility.buildKey(['aKind', testDatastore.int('1234')]);
+            builtKey.should.have.nested.property('path[0]', 'aKind');
+            builtKey.should.have.nested.property('path[1]', '1234');
+        });
+    });
+
+    describe('#buildMixedKey', () => {
+        it('allows non-numeric IDs', () => {
+            keyUtility.buildMixedKey(['aKind', 'aName']).should.have.nested.property('path[1]', 'aName');
+        });
+        it('allows numeric IDs', () => {
+            keyUtility.buildMixedKey(['aKind', 123]).should.have.nested.property('path[1]', '123');
+        });
+        it('does not double convert datastore ints', () => {
+            const builtKey = keyUtility.buildMixedKey(['aKind', testDatastore.int('1234')]);
+            builtKey.should.have.nested.property('path[0]', 'aKind');
+            builtKey.should.have.nested.property('path[1]', '1234');
+        });
+    });
+
+    describe('#buildNamedKey', () => {
+        it('rejects non-numeric IDs', () => {
+            (() => keyUtility.buildNamedKey(['aKind', 'anInvalidID'])).should.throw('key.invalidId');
+        });
+        it('allows numeric IDs', () => {
+            keyUtility.buildNamedKey(['aKind', 123]).should.have.nested.property('path[1]', '123');
+        });
+        it('rejects datastore ints', () => {
+            const builtKey = keyUtility.buildNamedKey(['aKind', testDatastore.int('1234')]);
             builtKey.should.have.nested.property('path[0]', 'aKind');
             builtKey.should.have.nested.property('path[1]', '1234');
         });

@@ -2,10 +2,10 @@ import { areKeysEqual } from '../src/areKeysEqual';
 import { testDatastore } from './test.support';
 
 describe('"areKeysEqual" determines that keys ', () => {
-    const keyToCompare = testDatastore.key(['one', 1, 'two', 2]);
+    const keyToCompare = testDatastore.key(['one', 1, 'two', 'three']);
 
     it('with the same ID at all levels are equal', () => {
-        const otherKey = testDatastore.key(['one', 1, 'two', 2]);
+        const otherKey = testDatastore.key(['one', 1, 'two', 'three']);
         areKeysEqual(keyToCompare, otherKey).should.be.true;
     });
 
