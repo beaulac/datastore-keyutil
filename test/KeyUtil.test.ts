@@ -1,7 +1,7 @@
+import { DatastoreKey } from '@google-cloud/datastore/entity';
 import * as chai from 'chai';
 import { KeyUtil } from '../src/KeyUtil';
 import { randomKey, testDatastore } from './test.support';
-import { DatastoreKey } from '@google-cloud/datastore/entity';
 
 const should = chai.should();
 const KEY_SYMBOL = testDatastore.KEY;
@@ -19,15 +19,15 @@ describe('The Key Utility', function () {
     });
 
     describe('#buildKey', () => {
-        it('allows numeric IDs', () => {
-            keyUtility.buildKey(['aKind', 123]).should.have.nested.property('path[1]', '123');
-        });
-        it('rejects non-numeric IDs', () => {
-            (() => keyUtility.buildKey(['aKind', 'anInvalidID'])).should.throw('key.invalidId');
-        });
+        it('allows numeric IDs',
+           () => keyUtility.buildKey(['aKind', 123]).should.have.nested.property('path[1]', '123')
+        );
+        it('rejects non-numeric IDs', () =>
+            (() => keyUtility.buildKey(['aKind', 'anInvalidID'])).should.throw('key.invalidId')
+        );
 
         it('does not double convert datastore ints', () => {
-            const builtKey = keyUtility.buildKey(['aKind', testDatastore.int('1234')]);
+            const builtKey = keyUtility.buildKey(aDsIntKeyPath());
             builtKey.should.have.nested.property('path[0]', 'aKind');
             builtKey.should.have.nested.property('path[1]', '1234');
         });
@@ -41,24 +41,22 @@ describe('The Key Utility', function () {
             keyUtility.buildMixedKey(['aKind', 123]).should.have.nested.property('path[1]', '123');
         });
         it('does not double convert datastore ints', () => {
-            const builtKey = keyUtility.buildMixedKey(['aKind', testDatastore.int('1234')]);
+            const builtKey = keyUtility.buildMixedKey(aDsIntKeyPath());
             builtKey.should.have.nested.property('path[0]', 'aKind');
             builtKey.should.have.nested.property('path[1]', '1234');
         });
     });
 
     describe('#buildNamedKey', () => {
-        it('rejects non-numeric IDs', () => {
-            (() => keyUtility.buildNamedKey(['aKind', 'anInvalidID'])).should.throw('key.invalidId');
+        it('rejects numeric IDs',
+           () => (() => keyUtility.buildNamedKey(['aKind', 123])).should.throw('key.invalidName')
+        );
+        it('allows string IDs', () => {
+            keyUtility.buildNamedKey(['aKind', 'aValidID']).should.have.nested.property('path[1]', 'aValidID');
         });
-        it('allows numeric IDs', () => {
-            keyUtility.buildNamedKey(['aKind', 123]).should.have.nested.property('path[1]', '123');
-        });
-        it('rejects datastore ints', () => {
-            const builtKey = keyUtility.buildNamedKey(['aKind', testDatastore.int('1234')]);
-            builtKey.should.have.nested.property('path[0]', 'aKind');
-            builtKey.should.have.nested.property('path[1]', '1234');
-        });
+        it('rejects datastore ints', () =>
+            (() => keyUtility.buildNamedKey(aDsIntKeyPath())).should.throw('key.invalidName')
+        );
     });
 
     describe('#setKey', () => {
@@ -144,4 +142,8 @@ describe('The Key Utility', function () {
             extractedKeys.should.deep.equal([theEntityKey]);
         });
     });
+
+    function aDsIntKeyPath() {
+        return ['aKind', testDatastore.int('1234')];
+    }
 });
