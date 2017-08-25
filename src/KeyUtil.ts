@@ -2,7 +2,7 @@ import * as Datastore from '@google-cloud/datastore';
 import { DatastoreKey, DatastoreKeyPath, ObjOrPayload } from '@google-cloud/datastore/entity';
 import { areKeysEqual } from './areKeysEqual';
 import { base64ify, pluralize } from './higher.order.helpers';
-import { idToString } from './id.string.conversion';
+import { idToString } from './key.path.elements';
 import { DatastoreKeylike } from './isKeylike';
 import { KeyBuilder } from './KeyBuilder';
 import { KeyExtractor } from './KeyExtractor';
@@ -116,7 +116,7 @@ export class KeyUtil {
      * @returns {DatastoreKey}
      */
     public coerceKeylikeToKey(keylike: DatastoreKeylike): DatastoreKey {
-        return this.keyExtractor.coerceKeylikeToKey(keylike, path => this.keyBuilder.buildNumericKey(path));
+        return this.keyExtractor.coerceKeylikeToKey(keylike, path => this.keyBuilder.buildMixedKey(path));
     }
 
     /**

@@ -1,11 +1,6 @@
 import { DatastoreInt, DatastoreKey, DatastoreKeyPath } from '@google-cloud/datastore/entity';
 import * as debug from 'debug';
-import {
-    DatastoreIdLike,
-    isValidDsIntString,
-    isValidNumericId,
-    isValidStringPathElement
-} from './id.string.conversion';
+import { DatastoreIdLike, isValidIdString, isValidNumericId, isValidStringPathElement } from './key.path.elements';
 import Datastore = require('@google-cloud/datastore');
 
 const _DEBUG = debug('datastore-keyutil');
@@ -39,10 +34,10 @@ export class KeyBuilder {
     public buildNumericKey(keyPath: DatastoreKeyPath): DatastoreKey {
         this._validateIsNonEmptyMappable(keyPath);
 
-        return this.datastore.key(keyPath.map((e, i) => this._parsePathElement(e, i)));
+        return this.datastore.key(keyPath.map((e, i) => this._parseNumericPathElement(e, i)));
     }
 
-    private _parsePathElement(pathElement: DatastoreIdLike, idx: number): DatastoreIdLike {
+    private _parseNumericPathElement(pathElement: DatastoreIdLike, idx: number): DatastoreIdLike {
         if (idx % 2 === 0) {
             return pathElement;
         } else {
@@ -52,8 +47,8 @@ export class KeyBuilder {
 
     private _parseMixedPathElement(pathElement: DatastoreIdLike, idx: number): DatastoreIdLike {
         return (idx % 2)
-            ? this._parseIdentifier(pathElement) || this.errorFn('key.invalidIdentifier', pathElement)
-            : this._parseKind(pathElement) || this.errorFn('key.invalidKind', pathElement);
+            ? this._parseIdentifier(pathElement)
+            : this._parseKind(pathElement);
     }
 
     private _validateIsNonEmptyMappable(keyPath: DatastoreIdLike[]): void {
@@ -67,14 +62,15 @@ export class KeyBuilder {
         }
     }
 
-    private _parseKind(pathElement: DatastoreIdLike) {
+    private _parseKind(pathElement: DatastoreIdLike): string {
         if (isValidStringPathElement(pathElement)) {
             return pathElement;
         }
         _DEBUG(`Received an invalid kind: ${JSON.stringify(pathElement)}`);
+        return this.errorFn('key.invalidKind', pathElement);
     }
 
-    private _parseIdentifier(pathElement: DatastoreIdLike): DatastoreIdLike | undefined {
+    private _parseIdentifier(pathElement: DatastoreIdLike): DatastoreIdLike {
         return this._parseId(pathElement) || this._parseName(pathElement);
     }
 
@@ -83,15 +79,16 @@ export class KeyBuilder {
             _DEBUG('Was passed a pre-converted datastore int: ', pathElement);
             return pathElement;
         }
-        if (isValidDsIntString(pathElement) || isValidNumericId(pathElement)) {
+        if (isValidIdString(pathElement) || isValidNumericId(pathElement)) {
             return this.dsInt(pathElement);
         }
     }
 
-    private _parseName(pathElement: DatastoreIdLike): string | undefined {
+    private _parseName(pathElement: DatastoreIdLike): string {
         if (isValidStringPathElement(pathElement)) {
             return pathElement;
         }
         _DEBUG(`Received an invalid Identifier: ${pathElement}`);
+        return this.errorFn('key.invalidIdentifier', pathElement);
     }
 }
