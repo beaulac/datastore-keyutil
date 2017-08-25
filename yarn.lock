@@ -185,6 +185,10 @@ balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
 
+base32.js@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/base32.js/-/base32.js-0.1.0.tgz#b582dec693c2f11e893cf064ee6ac5b6131a2202"
+
 base64url@2.0.0, base64url@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/base64url/-/base64url-2.0.0.tgz#eac16e03ea1438eff9423d69baa36262ed1f70bb"
@@ -441,9 +445,9 @@ ent@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/ent/-/ent-2.2.0.tgz#e964219325a21d05f44466a2f686ed6ce5f5dd1d"
 
-equal-but-not-falsy@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/equal-but-not-falsy/-/equal-but-not-falsy-1.0.4.tgz#fd5c956608f5569ecf504e7f4e15c7304148736c"
+equal-but-not-falsy@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/equal-but-not-falsy/-/equal-but-not-falsy-1.0.5.tgz#d9a5f0975b877d19538e31f8a9b56c2d891b8f73"
 
 escape-string-regexp@1.0.5, escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
   version "1.0.5"

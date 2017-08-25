@@ -4,6 +4,7 @@
   "description": "Key utility for google-cloud datastore.",
   "main": "dist/index.js",
   "types": "ts/index.d.ts",
+  "files": ["dist"],
   "author": "Antoine Beauvais-Lacasse <antoine.beaulac@gmail.com>",
   "license": "ISC",
   "scripts": {
@@ -13,8 +14,9 @@
     "benchmark": "node test/benchmark.js"
   },
   "dependencies": {
+    "base32.js": "^0.1.0",
     "debug": "^2.6.8",
-    "equal-but-not-falsy": "^1.0.4"
+    "equal-but-not-falsy": "^1.0.5"
   },
   "devDependencies": {
     "@google-cloud/datastore": "^1.0.7",
