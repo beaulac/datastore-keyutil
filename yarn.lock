@@ -39,9 +39,9 @@
     string-format-obj "^1.1.0"
     through2 "^2.0.3"
 
-"@google-cloud/datastore@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@google-cloud/datastore/-/datastore-1.0.7.tgz#16284baa7fbd664fba0f15c79cd736977f599054"
+"@google-cloud/datastore@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/datastore/-/datastore-1.1.0.tgz#386e9c9bdc4397945c8a47983821470f47041889"
   dependencies:
     "@google-cloud/common" "^0.13.0"
     "@google-cloud/common-grpc" "^0.4.0"
@@ -66,11 +66,11 @@
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-0.0.29.tgz#a1e514adfbd92f03a224ba54d693111dbf1f3754"
 
-"@types/google-cloud-datastore@octhuber/datastore-dts#master":
-  version "1.0.2"
-  resolved "https://codeload.github.com/octhuber/datastore-dts/tar.gz/0961ae37fcf4b66aae7222cffa96642715fa2269"
+"@types/google-cloud__datastore@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@types/google-cloud__datastore/-/google-cloud__datastore-1.1.0.tgz#2a9bb759755827a07d6a99a8eb077c668e2ea46c"
   dependencies:
-    "@types/node" "^0.12.4"
+    "@types/node" "*"
 
 "@types/mocha@^2.2.41":
   version "2.2.41"
@@ -79,10 +79,6 @@
 "@types/node@*":
   version "8.0.17"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.17.tgz#677bc8c118cfb76013febb62ede1f31d2c7222a1"
-
-"@types/node@^0.12.4":
-  version "0.12.8"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-0.12.8.tgz#5391d886003c38b8999bd1b0e6ed98d1728219e0"
 
 abbrev@1:
   version "1.1.0"

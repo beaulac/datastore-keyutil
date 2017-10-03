@@ -4,7 +4,9 @@
   "description": "Key utility for google-cloud datastore.",
   "main": "dist/index.js",
   "types": "ts/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "author": "Antoine Beauvais-Lacasse <antoine.beaulac@gmail.com>",
   "license": "ISC",
   "scripts": {
@@ -19,10 +21,10 @@
     "equal-but-not-falsy": "^1.0.5"
   },
   "devDependencies": {
-    "@google-cloud/datastore": "^1.0.7",
+    "@google-cloud/datastore": "^1.1.0",
     "@types/chai": "^4.0.1",
     "@types/debug": "^0.0.29",
-    "@types/google-cloud-datastore": "octhuber/datastore-dts#master",
+    "@types/google-cloud__datastore": "^1.1.0",
     "@types/mocha": "^2.2.41",
     "@types/node": "*",
     "chai": "^4.1.0",
