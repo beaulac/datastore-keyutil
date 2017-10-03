@@ -2,8 +2,8 @@ import * as Datastore from '@google-cloud/datastore';
 import { DatastoreKey, DatastoreKeyPath, ObjOrPayload } from '@google-cloud/datastore/entity';
 import { areKeysEqual } from './areKeysEqual';
 import { base64ify, pluralize } from './higher.order.helpers';
-import { idToString } from './key.path.elements';
 import { DatastoreKeylike } from './isKeylike';
+import { idToString } from './key.path.elements';
 import { KeyBuilder } from './KeyBuilder';
 import { KeyExtractor } from './KeyExtractor';
 import { keyToUID } from './keyToUid';
@@ -45,7 +45,7 @@ export class KeyUtil {
         this.errorFn = options.errorFn;
 
         this.keyBuilder = new KeyBuilder(this.datastore, this.errorFn);
-        this.keyExtractor = new KeyExtractor(this.datastore, this.errorFn);
+        this.keyExtractor = new KeyExtractor(this.datastore, this.keyBuilder, this.errorFn);
 
         if (options.embed) {
             (datastore as KeyUtilAugmentedDatastore).keyUtil = this;
@@ -116,7 +116,7 @@ export class KeyUtil {
      * @returns {DatastoreKey}
      */
     public coerceKeylikeToKey(keylike: DatastoreKeylike): DatastoreKey {
-        return this.keyExtractor.coerceKeylikeToKey(keylike, path => this.keyBuilder.buildMixedKey(path));
+        return this.keyExtractor.coerceKeylikeToKey(keylike);
     }
 
     /**
@@ -166,12 +166,11 @@ export class KeyUtil {
     }
 
     public extractParentKey(entity: DatastoreKeyExtractable): DatastoreKey {
-        const datastoreKey = this.extractKey(entity);
-        return datastoreKey.parent || this.errorFn('key.noParent', datastoreKey);
+        return this.keyExtractor.extractParentKey(entity);
     }
 
     public uidToKey(uid: string): DatastoreKey {
-        return this.buildKey(JSON.parse(uid));
+        return this.buildMixedKey(JSON.parse(uid));
     }
 
     public base64UidToKey(base64Uid: string): DatastoreKey {
