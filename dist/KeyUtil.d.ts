@@ -22,7 +22,7 @@ export declare class KeyUtil {
     private keyBuilder;
     private keyExtractor;
     private errorFn;
-    constructor(datastore: Datastore, options?: KeyUtilOptions);
+    constructor(datastore: Datastore, options?: Partial<KeyUtilOptions>);
     setKey<T>(entity: T, key: DatastoreKey): T;
     buildMixedKey(keyPath: DatastoreKeyPath): DatastoreKey;
     buildKey(keyPath: DatastoreKeyPath): DatastoreKey;

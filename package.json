@@ -15,7 +15,7 @@
     "test": "mocha --compilers ts:ts-node/register test/*test.ts"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=6.5"
   },
   "dependencies": {
     "base32.js": "^0.1.0",

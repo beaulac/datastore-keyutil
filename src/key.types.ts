@@ -6,6 +6,10 @@ export interface KeyUtilAugmentedDatastore extends Datastore {
     keyUtil: KeyUtil
 }
 
+declare namespace KeyUtilAugmentedDatastore {
+    const keyUtil: KeyUtil;
+}
+
 export type DatastoreKeyExtractable<T = any> = ObjOrPayload<T> | DatastoreKey;
 
 export type DatastoreIdLike = string | number | DatastoreInt;

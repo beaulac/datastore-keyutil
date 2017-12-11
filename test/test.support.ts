@@ -1,10 +1,10 @@
 import * as Datastore from '@google-cloud/datastore';
 import { DatastoreInt, DatastoreKey } from '@google-cloud/datastore/entity';
 
-export const testDatastore = new Datastore({projectId: 'KeyUtilTest'});
+export const testDatastore = new Datastore({ projectId: 'KeyUtilTest' });
 
 export function randomKey(): DatastoreKey {
-    return testDatastore.key(randomPath(Math.floor(Math.random() * 10)));
+    return testDatastore.key(randomPath(1 + Math.floor(Math.random() * 10)));
 }
 
 export function randomString() {
@@ -27,4 +27,17 @@ export function randomPath(length) {
 
 export function randomSubPath_(): [string, DatastoreInt] {
     return [randomString(), testDatastore.int(randomInt())];
+}
+
+export class FakeDatastore {
+    static KEY = Symbol('KEY');
+    KEY = FakeDatastore.KEY;
+
+    int() {
+        return {};
+    }
+
+    key() {
+        return {};
+    }
 }

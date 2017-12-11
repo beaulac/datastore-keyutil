@@ -1,6 +1,6 @@
 import { DatastoreKey } from '@google-cloud/datastore/entity';
 import * as chai from 'chai';
-import { KeyUtil } from '../src/KeyUtil';
+import { KeyUtil } from '../src';
 import { randomKey, testDatastore } from './test.support';
 
 const should = chai.should();
@@ -108,7 +108,7 @@ describe('The Key Utility', function () {
             const childKey = randomKey();
             childKey.parent = theEntityKey;
 
-            keyUtility.extractParentKey({[KEY_SYMBOL]: childKey})
+            keyUtility.extractParentKey({ [KEY_SYMBOL]: childKey })
                       .should.deep.equal(theEntityKey);
         });
 
@@ -116,7 +116,7 @@ describe('The Key Utility', function () {
             const childKey = randomKey();
             childKey.parent = theEntityKey;
 
-            keyUtility.extractParentKey({key: childKey})
+            keyUtility.extractParentKey({ key: childKey })
                       .should.deep.equal(theEntityKey);
         });
 
@@ -135,7 +135,7 @@ describe('The Key Utility', function () {
         });
 
         it('extracts keys from entities', () => {
-            let anEntity = {[KEY_SYMBOL]: theEntityKey};
+            let anEntity = { [KEY_SYMBOL]: theEntityKey };
 
             const extractedKeys = keyUtility.mapToKeys([anEntity]);
 

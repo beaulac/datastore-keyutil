@@ -32,18 +32,19 @@ export class KeyUtil {
     private keyExtractor: KeyExtractor;
     private errorFn: KeyErrorThrower;
 
-    constructor(private datastore: Datastore, options?: KeyUtilOptions) {
+    constructor(private datastore: Datastore, options?: Partial<KeyUtilOptions>) {
         options = options
             ? Object.assign(defaultOptions(), options)
             : defaultOptions();
 
-        this.errorFn = options.errorFn;
+        this.errorFn = (<KeyUtilOptions>options).errorFn;
 
         this.keyBuilder = new KeyBuilder(this.datastore, this.errorFn);
         this.keyExtractor = new KeyExtractor(this.datastore, this.keyBuilder, this.errorFn);
 
         if (options.embed) {
             (datastore as KeyUtilAugmentedDatastore).keyUtil = this;
+            (datastore.constructor as any).keyUtil = this;
         }
     }
 

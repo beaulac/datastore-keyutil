@@ -31,6 +31,7 @@ class KeyUtil {
         this.keyExtractor = new KeyExtractor_1.KeyExtractor(this.datastore, this.keyBuilder, this.errorFn);
         if (options.embed) {
             datastore.keyUtil = this;
+            datastore.constructor.keyUtil = this;
         }
     }
     setKey(entity, key) {
