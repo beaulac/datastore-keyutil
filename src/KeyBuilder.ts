@@ -1,10 +1,8 @@
 import { DatastoreInt, DatastoreKey, DatastoreKeyPath } from '@google-cloud/datastore/entity';
-import * as debug from 'debug';
-import { DatastoreIdLike, isValidIdString, isValidNumericId, isValidStringPathElement } from './key.path.elements';
-import { ErrorThrower } from './key.types';
+import { _DEBUG } from './key.debugging';
+import { isValidIdString, isValidNumericId, isValidStringPathElement } from './key.path.elements';
+import { DatastoreIdLike, ErrorThrower } from './key.types';
 import Datastore = require('@google-cloud/datastore');
-
-const _DEBUG = debug('datastore-keyutil');
 
 export class KeyBuilder {
     private dsInt: (x: string | number) => DatastoreInt;

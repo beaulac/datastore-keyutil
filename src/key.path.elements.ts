@@ -1,9 +1,7 @@
 import { DatastoreInt } from '@google-cloud/datastore/entity';
-import * as debug from 'debug';
+import { _DEBUG } from './key.debugging';
+import { DatastoreIdLike } from './key.types';
 
-const _DEBUG = debug('datastore-keyutil');
-
-export type DatastoreIdLike = string | number | DatastoreInt;
 
 export function isValidIdString(intstr: DatastoreIdLike): intstr is string {
     intstr = intstr.toString();
