@@ -12,13 +12,16 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "tsc",
-    "test": "mocha --compilers ts:ts-node/register test/*test.ts",
-    "benchmark": "node test/benchmark.js"
+    "test": "mocha --compilers ts:ts-node/register test/*test.ts"
   },
   "dependencies": {
     "base32.js": "^0.1.0",
     "debug": "^2.6.8",
-    "equal-but-not-falsy": "^1.0.5"
+    "equal-but-not-falsy": "^1.0.5",
+    "urlsafe-base64": "^1.0.0"
+  },
+  "peerDependencies": {
+    "@google-cloud/datastore": "^1.1.0"
   },
   "devDependencies": {
     "@google-cloud/datastore": "^1.1.0",
@@ -27,6 +30,7 @@
     "@types/google-cloud__datastore": "^1.1.0",
     "@types/mocha": "^2.2.41",
     "@types/node": "*",
+    "@types/urlsafe-base64": "^1.0.28",
     "chai": "^4.1.0",
     "mocha": "^3.4.2",
     "ts-node": "^3.3.0",
