@@ -3,16 +3,19 @@
   "version": "0.0.1",
   "description": "Key utility for google-cloud datastore.",
   "main": "dist/index.js",
-  "types": "ts/index.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "author": "Antoine Beauvais-Lacasse <antoine.beaulac@gmail.com>",
   "license": "ISC",
   "scripts": {
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build",
     "build": "tsc",
     "test": "mocha --compilers ts:ts-node/register test/*test.ts"
+  },
+  "engines": {
+    "node": ">=6.0.0"
   },
   "dependencies": {
     "base32.js": "^0.1.0",
