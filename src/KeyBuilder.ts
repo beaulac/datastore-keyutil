@@ -1,6 +1,7 @@
 import { DatastoreInt, DatastoreKey, DatastoreKeyPath } from '@google-cloud/datastore/entity';
 import * as debug from 'debug';
 import { DatastoreIdLike, isValidIdString, isValidNumericId, isValidStringPathElement } from './key.path.elements';
+import { ErrorThrower } from './key.types';
 import Datastore = require('@google-cloud/datastore');
 
 const _DEBUG = debug('datastore-keyutil');
@@ -10,7 +11,7 @@ export class KeyBuilder {
     private isDsInt: (x: any) => x is DatastoreInt;
 
     constructor(private datastore: Datastore,
-                private errorFn: (errMsg: string, data?: any) => never) {
+                private errorFn: ErrorThrower) {
         const _DatastoreInt = datastore.int(0).constructor; // is there prettier way of getting this?
         this.isDsInt = (x: any): x is DatastoreInt => x instanceof _DatastoreInt;
         this.dsInt = datastore.int.bind(datastore);

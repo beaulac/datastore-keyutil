@@ -1,19 +1,14 @@
 import * as Datastore from '@google-cloud/datastore';
-import { DatastoreKey, DatastoreKeyPath, ObjOrPayload } from '@google-cloud/datastore/entity';
+import { DatastoreKey, DatastoreKeyPath } from '@google-cloud/datastore/entity';
 import { areKeysEqual } from './areKeysEqual';
 import { base64ify, pluralize } from './higher.order.helpers';
 import { DatastoreKeylike } from './isKeylike';
 import { idToString } from './key.path.elements';
+import { DatastoreKeyExtractable, ErrorThrower, KeyUtilAugmentedDatastore } from './key.types';
 import { KeyBuilder } from './KeyBuilder';
 import { KeyExtractor } from './KeyExtractor';
 import { keyToUID } from './keyToUid';
 import { defaultOptions, KeyUtilOptions } from './KeyUtilOptions';
-
-export interface KeyUtilAugmentedDatastore extends Datastore {
-    keyUtil: KeyUtil
-}
-
-export type DatastoreKeyExtractable<T = any> = ObjOrPayload<T> | DatastoreKey;
 
 export class KeyUtil {
     public KEY_SYMBOL = this.datastore.KEY;
@@ -35,7 +30,7 @@ export class KeyUtil {
 
     private keyBuilder: KeyBuilder;
     private keyExtractor: KeyExtractor;
-    private errorFn: (msg: string, data?: any) => never;
+    private errorFn: ErrorThrower;
 
     constructor(private datastore: Datastore, options?: KeyUtilOptions) {
         options = options
@@ -137,7 +132,7 @@ export class KeyUtil {
     }
 
     public idOf(entity: DatastoreKeyExtractable): string {
-        const {id = ''} = this.extractKey(entity) || {};
+        const { id = '' } = this.extractKey(entity) || {};
         return id && idToString(id);
     }
 
@@ -146,7 +141,7 @@ export class KeyUtil {
     };
 
     public nameOf(entity: DatastoreKeyExtractable): string {
-        const {name = ''} = this.extractKey(entity) || {};
+        const { name = '' } = this.extractKey(entity) || {};
         return name;
     }
 

@@ -1,16 +1,7 @@
 import { DatastoreKey } from '@google-cloud/datastore/entity';
 import { DatastoreKeylike } from './isKeylike';
 
-function _printPath(key?: DatastoreKeylike): string {
-    let uid = '';
-
-    while (key) {
-        uid = `,"${key.kind}","${key.id || key.name}"${uid}`;
-        key = key.parent;
-    }
-
-    return uid;
-}
+const emptyUID = '';
 
 /**
  * Turns a key into JSON string of its path.
@@ -21,8 +12,8 @@ function _printPath(key?: DatastoreKeylike): string {
  */
 export function keyToUID(key?: DatastoreKeylike): string {
     return (key && key.kind)
-        ? `[${_printPath(key).slice(1)}]`
-        : '';
+        ? `[${stringifyPath(key)}]`
+        : emptyUID;
 }
 
 /**
@@ -33,6 +24,17 @@ export function keyToUID(key?: DatastoreKeylike): string {
  */
 export function keyToGQL(key?: DatastoreKey): string {
     return (key && key.kind)
-        ? `Key(${_printPath(key).slice(1)})`
-        : '';
+        ? `Key(${stringifyPath(key)})`
+        : emptyUID;
+}
+
+function stringifyPath(key?: DatastoreKeylike): string {
+    let uid = emptyUID;
+
+    while (key) {
+        uid = `,"${key.kind}","${key.id || key.name}"${uid}`;
+        key = key.parent;
+    }
+
+    return uid.slice(1);
 }
