@@ -30,15 +30,15 @@ export class KeyExtractor {
     }
 
     public extractKey(entity: DatastoreKeyExtractable): DatastoreKey {
-        if (!entity) {
-            return entity;
-        }
-
         const key = isKeylike(entity)
             ? entity
             : this._extractKeyFromEntity(entity);
 
         return this.coerceKeylikeToKey(key);
+    }
+
+    public extractPossibleKey(entity: DatastoreKeyExtractable): DatastoreKey | undefined | null {
+        return entity ? this.extractKey(entity) : entity;
     }
 
     public extractParentKey(entity: DatastoreKeyExtractable): DatastoreKey {
