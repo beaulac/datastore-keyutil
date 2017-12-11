@@ -1,6 +1,6 @@
 import { DatastoreKey, DatastoreKeyPath } from '@google-cloud/datastore/entity';
 import { DatastoreKeylike, isKeylike } from './isKeylike';
-import { DatastoreKeyExtractable, ErrorThrower } from './key.types';
+import { DatastoreKeyExtractable, KeyErrorThrower } from './key.types';
 import { KeyBuilder } from './KeyBuilder';
 import Datastore = require('@google-cloud/datastore');
 
@@ -11,7 +11,7 @@ export class KeyExtractor {
 
     constructor(datastore: Datastore,
                 keyBuilder: KeyBuilder,
-                private errorFn: ErrorThrower) {
+                private errorFn: KeyErrorThrower) {
         ({ KEY: this.KEY_SYMBOL } = datastore);
 
         const _DatastoreKey = datastore.key({ path: [] }).constructor;

@@ -4,7 +4,7 @@ import { areKeysEqual } from './areKeysEqual';
 import { base64ify, pluralize } from './higher.order.helpers';
 import { DatastoreKeylike } from './isKeylike';
 import { idToString } from './key.path.elements';
-import { DatastoreKeyExtractable, ErrorThrower, KeyUtilAugmentedDatastore } from './key.types';
+import { DatastoreKeyExtractable, KeyErrorThrower, KeyUtilAugmentedDatastore } from './key.types';
 import { KeyBuilder } from './KeyBuilder';
 import { KeyExtractor } from './KeyExtractor';
 import { keyToUID } from './keyToUid';
@@ -30,7 +30,7 @@ export class KeyUtil {
 
     private keyBuilder: KeyBuilder;
     private keyExtractor: KeyExtractor;
-    private errorFn: ErrorThrower;
+    private errorFn: KeyErrorThrower;
 
     constructor(private datastore: Datastore, options?: KeyUtilOptions) {
         options = options

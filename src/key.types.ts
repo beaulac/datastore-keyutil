@@ -10,4 +10,4 @@ export type DatastoreKeyExtractable<T = any> = ObjOrPayload<T> | DatastoreKey;
 
 export type DatastoreIdLike = string | number | DatastoreInt;
 
-export type ErrorThrower = (msg: string, data?: any) => never;
+export type KeyErrorThrower = (msg: string, data?: any) => never;

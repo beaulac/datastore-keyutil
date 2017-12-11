@@ -1,5 +1,6 @@
 import * as base32 from 'base32.js';
-import { coerceDsIdToInt, DatastoreIdLike } from './key.path.elements';
+import { coerceDsIdToInt } from './key.path.elements';
+import { DatastoreIdLike } from './key.types';
 
 const base32Options = {type: 'crockford', lc: false};
 const encode = (buf: Buffer) => base32.encode(buf, base32Options)
