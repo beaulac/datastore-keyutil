@@ -52,6 +52,13 @@ class KeyUtil {
     coerceKeylikeToKey(keylike) {
         return this.keyExtractor.coerceKeylikeToKey(keylike);
     }
+    allocateKeys(keyPath, count = 1) {
+        const incompleteKey = Array.isArray(keyPath)
+            ? this.buildMixedKey(keyPath)
+            : this.coerceKeylikeToKey(keyPath);
+        return this.datastore.allocateIds(incompleteKey, count)
+            .then(([allocatedKeys]) => count > 1 ? allocatedKeys : allocatedKeys[0]);
+    }
     extractKey(entity) {
         return this.keyExtractor.extractKey(entity);
     }

@@ -143,6 +143,55 @@ describe('The Key Utility', function () {
         });
     });
 
+    describe('#allocateKeys', function () {
+        it('allocates a key given a path', function () {
+            const kind = 'a_kind';
+
+            return keyUtility.allocateKeys([kind])
+                             .then(key => {
+                                 key.should.have.property('kind', kind);
+                                 key.should.have.property('id');
+                             });
+        });
+
+        it('allocates a key given an incomplete key', function () {
+            const kind = 'a_kind';
+
+            return keyUtility.allocateKeys(testDatastore.key([kind]))
+                             .then(key => {
+                                 key.should.have.property('kind', kind);
+                                 key.should.have.property('id');
+                             });
+        });
+
+        it('allocates keys given a path', function () {
+            const kind = 'a_kind';
+
+            return keyUtility.allocateKeys([kind], 2)
+                             .then(keys => {
+                                 keys.should.have.lengthOf(2);
+
+                                 keys[0].should.have.property('kind', kind);
+                                 keys[0].should.have.property('id');
+                                 keys[1].should.have.property('kind', kind);
+                                 keys[1].should.have.property('id');
+                             });
+        });
+        it('allocates keys given an incomplete key', function () {
+            const kind = 'a_kind';
+
+            return keyUtility.allocateKeys([kind], 2)
+                             .then(keys => {
+                                 keys.should.have.lengthOf(2);
+
+                                 keys[0].should.have.property('kind', kind);
+                                 keys[0].should.have.property('id');
+                                 keys[1].should.have.property('kind', kind);
+                                 keys[1].should.have.property('id');
+                             });
+        });
+    });
+
     function aDsIntKeyPath() {
         return ['aKind', testDatastore.int('1234')];
     }

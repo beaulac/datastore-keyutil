@@ -28,6 +28,7 @@ export declare class KeyUtil {
     buildKey(keyPath: DatastoreKeyPath): DatastoreKey;
     buildNamedKey(keyPath: DatastoreKeyPath): DatastoreKey;
     coerceKeylikeToKey(keylike: DatastoreKeylike): DatastoreKey;
+    allocateKeys(keyPath: DatastoreKeyPath | DatastoreKeylike, count?: number): Promise<DatastoreKey | DatastoreKey[]>;
     extractKey(entity: DatastoreKeyExtractable): DatastoreKey;
     idOf(entity: DatastoreKeyExtractable): string;
     parentIdOf(entity: DatastoreKeyExtractable): string;

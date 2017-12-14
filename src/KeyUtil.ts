@@ -115,6 +115,16 @@ export class KeyUtil {
         return this.keyExtractor.coerceKeylikeToKey(keylike);
     }
 
+    public allocateKeys(keyPath: DatastoreKeyPath | DatastoreKeylike,
+                        count = 1): Promise<DatastoreKey | DatastoreKey[]> {
+        const incompleteKey = Array.isArray(keyPath)
+            ? this.buildMixedKey(keyPath)
+            : this.coerceKeylikeToKey(keyPath);
+
+        return this.datastore.allocateIds(incompleteKey, count)
+                   .then(([allocatedKeys]) => count > 1 ? allocatedKeys : allocatedKeys[0]);
+    }
+
     /**
      * On GCDS entities, the key is hidden away as a symbol property.
      * The symbol itself is non-global, and only available on the datastore object.
