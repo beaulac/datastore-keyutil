@@ -1,7 +1,9 @@
+import 'datastore-emulator-enforcer';
+
 import * as Datastore from '@google-cloud/datastore';
 import { DatastoreInt, DatastoreKey } from '@google-cloud/datastore/entity';
 
-export const testDatastore = new Datastore({ projectId: 'KeyUtilTest' });
+export const testDatastore = new Datastore({ projectId: 'key-util-test' });
 
 export function randomKey(): DatastoreKey {
     return testDatastore.key(randomPath(1 + Math.floor(Math.random() * 10)));
@@ -15,7 +17,7 @@ export function randomInt() {
     return Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
 }
 
-export function randomPath(length) {
+export function randomPath(length: number) {
     const path = [];
 
     while (length--) {

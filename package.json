@@ -12,7 +12,7 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "build": "tsc",
-    "test": "mocha --compilers ts:ts-node/register test/*test.ts"
+    "test": "mocha --require ts-node/register test/*test.ts"
   },
   "engines": {
     "node": ">=6.5"
@@ -35,6 +35,7 @@
     "@types/node": "*",
     "@types/urlsafe-base64": "^1.0.28",
     "chai": "^4.1.2",
+    "datastore-emulator-enforcer": "^1.0.2",
     "mocha": "^4.0.1",
     "ts-node": "^4.0.1",
     "tslint": "^5.8.0",

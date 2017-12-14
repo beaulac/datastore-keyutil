@@ -489,7 +489,13 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-debug@3.1.0, debug@^3.1.0:
+datastore-emulator-enforcer@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/datastore-emulator-enforcer/-/datastore-emulator-enforcer-1.0.2.tgz#2c3700e49bb7c22d4548086aa9ac5413fc0c9f2c"
+  dependencies:
+    debug "^3.0.0"
+
+debug@3.1.0, debug@^3.0.0, debug@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
   dependencies:
