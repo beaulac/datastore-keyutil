@@ -1,7 +1,5 @@
-import 'datastore-emulator-enforcer';
-
 import * as Datastore from '@google-cloud/datastore';
-import { DatastoreInt, DatastoreKey } from '@google-cloud/datastore/entity';
+import { DatastoreInt, DatastoreKey, PathElement } from '@google-cloud/datastore/entity';
 
 export const testDatastore = new Datastore({ projectId: 'key-util-test' });
 
@@ -18,7 +16,7 @@ export function randomInt() {
 }
 
 export function randomPath(length: number) {
-    const path = [];
+    const path: PathElement[] = [];
 
     while (length--) {
         path.push(...randomSubPath_());

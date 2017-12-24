@@ -1,2 +1,3 @@
+--require datastore-emulator-enforcer
 --timeout 1s
 --slow 25

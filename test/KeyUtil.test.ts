@@ -168,7 +168,7 @@ describe('The Key Utility', function () {
             const kind = 'a_kind';
 
             return keyUtility.allocateKeys([kind], 2)
-                             .then(keys => {
+                             .then((keys: any) => {
                                  keys.should.have.lengthOf(2);
 
                                  keys[0].should.have.property('kind', kind);
@@ -181,7 +181,7 @@ describe('The Key Utility', function () {
             const kind = 'a_kind';
 
             return keyUtility.allocateKeys([kind], 2)
-                             .then(keys => {
+                             .then((keys: any) => {
                                  keys.should.have.lengthOf(2);
 
                                  keys[0].should.have.property('kind', kind);
