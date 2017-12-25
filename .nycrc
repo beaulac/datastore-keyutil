@@ -1,0 +1,7 @@
+{
+  "cache": true,
+  "reporter": [
+    "text-summary",
+    "html"
+  ]
+}

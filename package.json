@@ -12,7 +12,8 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "build": "tsc",
-    "test": "mocha --require ts-node/register test/*test.ts"
+    "test": "mocha --require ts-node/register test/*test.ts",
+    "coverage": "nyc mocha --require ts-node/register test/*test.ts"
   },
   "engines": {
     "node": ">=6.5"
@@ -37,6 +38,7 @@
     "chai": "^4.1.2",
     "datastore-emulator-enforcer": "^1.0.2",
     "mocha": "^4.0.1",
+    "nyc": "^11.4.1",
     "ts-node": "^4.0.1",
     "tslint": "^5.8.0",
     "typescript": "^2.6.2"
