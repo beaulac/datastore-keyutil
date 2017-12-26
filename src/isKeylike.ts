@@ -1,7 +1,8 @@
-import { DatastoreKey } from '@google-cloud/datastore/entity';
+import { DatastoreKey, DatastoreKeyPath } from '@google-cloud/datastore/entity';
 
-export interface DatastoreKeylike extends Pick<DatastoreKey, 'path' | 'kind' | 'id' | 'name'> {
+export interface DatastoreKeylike extends Pick<DatastoreKey, 'kind' | 'id' | 'name'> {
     parent?: DatastoreKeylike;
+    path: DatastoreKeyPath;
 }
 
 export function isKeylike(k: any): k is DatastoreKeylike {

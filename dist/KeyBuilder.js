@@ -6,9 +6,6 @@ class KeyBuilder {
     constructor(datastore, errorFn) {
         this.datastore = datastore;
         this.errorFn = errorFn;
-        const _DatastoreInt = datastore.int(0).constructor;
-        this.isDsInt = (x) => x instanceof _DatastoreInt;
-        this.dsInt = datastore.int.bind(datastore);
     }
     buildMixedKey(keyPath) {
         this._validateIsNonEmptyMappable(keyPath);
@@ -61,12 +58,12 @@ class KeyBuilder {
         return this._parseId(pathElement) || this._parseName(pathElement);
     }
     _parseId(pathElement) {
-        if (this.isDsInt(pathElement)) {
+        if (this.datastore.isInt(pathElement)) {
             key_debugging_1._DEBUG('Was passed a pre-converted datastore int: ', pathElement);
             return pathElement;
         }
         if (key_path_elements_1.isValidIdString(pathElement) || key_path_elements_1.isValidNumericId(pathElement)) {
-            return this.dsInt(pathElement);
+            return this.datastore.int(pathElement);
         }
     }
     _parseName(pathElement) {

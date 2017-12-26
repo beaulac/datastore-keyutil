@@ -5,8 +5,6 @@ import Datastore = require('@google-cloud/datastore');
 export declare class KeyBuilder {
     private datastore;
     private errorFn;
-    private dsInt;
-    private isDsInt;
     constructor(datastore: Datastore, errorFn: KeyErrorThrower);
     buildMixedKey(keyPath: DatastoreKeyPath): DatastoreKey;
     buildNamedKey(keyPath: DatastoreKeyPath): DatastoreKey;

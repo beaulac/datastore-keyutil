@@ -1,40 +1,26 @@
-import { DatastoreKey, DatastoreKeyPath } from '@google-cloud/datastore/entity';
+import * as Datastore from '@google-cloud/datastore';
+import { DatastoreKey } from '@google-cloud/datastore/entity';
 import { DatastoreKeylike, isKeylike } from './isKeylike';
 import { DatastoreKeyExtractable, KeyErrorThrower } from './key.types';
 import { KeyBuilder } from './KeyBuilder';
-import Datastore = require('@google-cloud/datastore');
 
 export class KeyExtractor {
-    private KEY_SYMBOL: symbol;
-    private isKey: (k: any) => boolean;
-    private builder: (path: DatastoreKeyPath) => DatastoreKey;
 
-    constructor(datastore: Datastore,
-                keyBuilder: KeyBuilder,
+    constructor(private datastore: Datastore,
+                private keyBuilder: KeyBuilder,
                 private errorFn: KeyErrorThrower) {
-        ({ KEY: this.KEY_SYMBOL } = datastore);
-
-        const _DatastoreKey = datastore.key({ path: [] }).constructor;
-        this.isKey = (k: any): k is DatastoreKey => k instanceof _DatastoreKey;
-        this.builder = path => keyBuilder.buildMixedKey(path);
     }
 
-    public coerceKeylikeToKey(keylike: DatastoreKeylike): DatastoreKey {
-        if (this.isKey(keylike)) {
-            return keylike;
-        }
-        if (isKeylike(keylike)) {
-            return this.builder(keylike.path);
-        }
-        return this.errorFn('key.notKeylike', keylike);
+    public coerceKeylikeToKey(k: DatastoreKeylike): DatastoreKey {
+        return this.datastore.isKey(k)
+            ? k
+            : this.keyBuilder.buildMixedKey(k.path || this.errorFn('key.notKeylike', k));
     }
 
     public extractKey(entity: DatastoreKeyExtractable): DatastoreKey {
-        const key = isKeylike(entity)
-            ? entity
+        return isKeylike(entity)
+            ? this.coerceKeylikeToKey(entity)
             : this._extractKeyFromEntity(entity);
-
-        return this.coerceKeylikeToKey(key);
     }
 
     public extractPossibleKey(entity: DatastoreKeyExtractable): DatastoreKey | undefined | null {
@@ -47,7 +33,7 @@ export class KeyExtractor {
 
     private _extractKeyFromEntity(entity: DatastoreKeyExtractable) {
         return entity
-            ? (entity[this.KEY_SYMBOL] || entity.key)
+            ? (entity[this.datastore.KEY] || entity.key)
             : this.errorFn('key.nonExtractable', entity);
     }
 

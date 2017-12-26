@@ -3,26 +3,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const isKeylike_1 = require("./isKeylike");
 class KeyExtractor {
     constructor(datastore, keyBuilder, errorFn) {
+        this.datastore = datastore;
+        this.keyBuilder = keyBuilder;
         this.errorFn = errorFn;
-        ({ KEY: this.KEY_SYMBOL } = datastore);
-        const _DatastoreKey = datastore.key({ path: [] }).constructor;
-        this.isKey = (k) => k instanceof _DatastoreKey;
-        this.builder = path => keyBuilder.buildMixedKey(path);
     }
-    coerceKeylikeToKey(keylike) {
-        if (this.isKey(keylike)) {
-            return keylike;
-        }
-        if (isKeylike_1.isKeylike(keylike)) {
-            return this.builder(keylike.path);
-        }
-        return this.errorFn('key.notKeylike', keylike);
+    coerceKeylikeToKey(k) {
+        return this.datastore.isKey(k)
+            ? k
+            : this.keyBuilder.buildMixedKey(k.path || this.errorFn('key.notKeylike', k));
     }
     extractKey(entity) {
-        const key = isKeylike_1.isKeylike(entity)
-            ? entity
+        return isKeylike_1.isKeylike(entity)
+            ? this.coerceKeylikeToKey(entity)
             : this._extractKeyFromEntity(entity);
-        return this.coerceKeylikeToKey(key);
     }
     extractPossibleKey(entity) {
         return entity ? this.extractKey(entity) : entity;
@@ -32,7 +25,7 @@ class KeyExtractor {
     }
     _extractKeyFromEntity(entity) {
         return entity
-            ? (entity[this.KEY_SYMBOL] || entity.key)
+            ? (entity[this.datastore.KEY] || entity.key)
             : this.errorFn('key.nonExtractable', entity);
     }
     _parentOf(key) {

@@ -5,14 +5,9 @@ import { DatastoreIdLike, KeyErrorThrower } from './key.types';
 import Datastore = require('@google-cloud/datastore');
 
 export class KeyBuilder {
-    private dsInt: (x: string | number) => DatastoreInt;
-    private isDsInt: (x: any) => x is DatastoreInt;
 
     constructor(private datastore: Datastore,
                 private errorFn: KeyErrorThrower) {
-        const _DatastoreInt = datastore.int(0).constructor; // is there prettier way of getting this?
-        this.isDsInt = (x: any): x is DatastoreInt => x instanceof _DatastoreInt;
-        this.dsInt = datastore.int.bind(datastore);
     }
 
     public buildMixedKey(keyPath: DatastoreKeyPath): DatastoreKey {
@@ -74,12 +69,12 @@ export class KeyBuilder {
     }
 
     private _parseId(pathElement: DatastoreIdLike): number | DatastoreInt | undefined {
-        if (this.isDsInt(pathElement)) { // Guard clause, don't double-convert.
+        if (this.datastore.isInt(pathElement)) { // Guard clause, don't double-convert.
             _DEBUG('Was passed a pre-converted datastore int: ', pathElement);
             return pathElement;
         }
         if (isValidIdString(pathElement) || isValidNumericId(pathElement)) {
-            return this.dsInt(pathElement);
+            return this.datastore.int(pathElement);
         }
     }
 
