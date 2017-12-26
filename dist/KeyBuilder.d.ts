@@ -1,7 +1,7 @@
 /// <reference types="google-cloud__datastore" />
+import * as Datastore from '@google-cloud/datastore';
 import { DatastoreKey, DatastoreKeyPath } from '@google-cloud/datastore/entity';
 import { KeyErrorThrower } from './key.types';
-import Datastore = require('@google-cloud/datastore');
 export declare class KeyBuilder {
     private datastore;
     private errorFn;

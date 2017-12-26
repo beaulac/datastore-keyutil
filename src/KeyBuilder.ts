@@ -1,8 +1,8 @@
+import * as Datastore from '@google-cloud/datastore';
 import { DatastoreInt, DatastoreKey, DatastoreKeyPath } from '@google-cloud/datastore/entity';
 import { _DEBUG } from './key.debugging';
 import { isValidIdString, isValidNumericId, isValidStringPathElement } from './key.path.elements';
 import { DatastoreIdLike, KeyErrorThrower } from './key.types';
-import Datastore = require('@google-cloud/datastore');
 
 export class KeyBuilder {
 

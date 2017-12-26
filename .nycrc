@@ -1,5 +1,12 @@
 {
   "cache": true,
+  "extension": [
+    ".ts"
+  ],
+  "exclude": [
+    "test/**",
+    "**/*.d.ts"
+  ],
   "reporter": [
     "text-summary",
     "html"
