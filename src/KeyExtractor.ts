@@ -14,7 +14,7 @@ export class KeyExtractor {
     public coerceKeylikeToKey(k: DatastoreKeylike): DatastoreKey {
         return this.datastore.isKey(k)
             ? k
-            : this.keyBuilder.buildMixedKey(k.path || this.errorFn('key.notKeylike', k));
+            : this.keyBuilder.buildMixedKey((k as DatastoreKeylike).path || this.errorFn('key.notKeylike', k));
     }
 
     public extractKey(entity: DatastoreKeyExtractable): DatastoreKey {

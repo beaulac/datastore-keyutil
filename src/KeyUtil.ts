@@ -1,32 +1,17 @@
 import * as Datastore from '@google-cloud/datastore';
-import { DatastoreKey, DatastoreKeyPath } from '@google-cloud/datastore/entity';
+import { DatastoreInt, DatastoreKey, DatastoreKeyPath } from '@google-cloud/datastore/entity';
+import * as ub64 from 'urlsafe-base64';
 import { areKeysEqual } from './areKeysEqual';
-import { base64ify, pluralize } from './higher.order.helpers';
+import { base64ify, pluralize, uidify } from './higher.order.helpers';
 import { DatastoreKeylike } from './isKeylike';
 import { idToString } from './key.path.elements';
 import { DatastoreKeyExtractable, KeyErrorThrower, KeyUtilAugmentedDatastore } from './key.types';
 import { KeyBuilder } from './KeyBuilder';
 import { KeyExtractor } from './KeyExtractor';
-import { keyToUID } from './keyToUid';
 import { defaultOptions, KeyUtilOptions } from './KeyUtilOptions';
 
 export class KeyUtil {
     public KEY_SYMBOL = this.datastore.KEY;
-
-    /** Base64 UIDs for passing around in URLs */
-    public base64UidFor = base64ify(this.uidFor);
-    public base64ParentUIDFor = base64ify(this.parentUidFor);
-
-    public mapToKeys = pluralize(this.extractKey, this);
-    public mapToParentKeys = pluralize(this.extractParentKey, this);
-    public mapToIDs = pluralize(this.idOf, this);
-    public mapToParentIDs = pluralize(this.parentIdOf, this);
-    public mapToNames = pluralize(this.nameOf, this);
-    public mapToParentNames = pluralize(this.nameOf, this);
-    public mapToUIDs = pluralize(this.uidFor, this);
-    public mapToBase64UIDs = pluralize(this.base64UidFor, this);
-    public mapToParentUIDs = pluralize(this.parentUidFor, this);
-    public mapToBase64ParentUIDs = pluralize(this.base64ParentUIDFor, this);
 
     private keyBuilder: KeyBuilder;
     private keyExtractor: KeyExtractor;
@@ -66,9 +51,7 @@ export class KeyUtil {
      *
      * @returns {DatastoreKey}
      */
-    public buildMixedKey(keyPath: DatastoreKeyPath): DatastoreKey {
-        return this.keyBuilder.buildMixedKey(keyPath);
-    }
+    public buildMixedKey = (keyPath: DatastoreKeyPath) => this.keyBuilder.buildMixedKey(keyPath);
 
     /**
      * Builds NUMERIC keys (keys with IDs, not names).
@@ -82,9 +65,7 @@ export class KeyUtil {
      *
      * @returns {DatastoreKey}
      */
-    public buildKey(keyPath: DatastoreKeyPath): DatastoreKey {
-        return this.keyBuilder.buildNumericKey(keyPath);
-    }
+    public buildKey = (keyPath: DatastoreKeyPath) => this.keyBuilder.buildNumericKey(keyPath);
 
     /**
      * Builds NAMED keys (keys with names, not IDs).
@@ -97,9 +78,7 @@ export class KeyUtil {
      *
      * @returns {DatastoreKey}
      */
-    public buildNamedKey(keyPath: DatastoreKeyPath): DatastoreKey {
-        return this.keyBuilder.buildNamedKey(keyPath);
-    }
+    public buildNamedKey = (keyPath: DatastoreKeyPath) => this.keyBuilder.buildNamedKey(keyPath);
 
     /**
      * Coerces any object (e.g. deserialized from Key JSON) to actual instance of {@link DatastoreKey}.
@@ -111,9 +90,8 @@ export class KeyUtil {
      *
      * @returns {DatastoreKey}
      */
-    public coerceKeylikeToKey(keylike: DatastoreKeylike): DatastoreKey {
-        return this.keyExtractor.coerceKeylikeToKey(keylike);
-    }
+    public coerceKeylikeToKey = (keylike: DatastoreKeylike) => this.keyExtractor.coerceKeylikeToKey(keylike);
+
 
     public allocateKeys(keyPath: DatastoreKeyPath | DatastoreKeylike,
                         count = 1): Promise<DatastoreKey | DatastoreKey[]> {
@@ -138,63 +116,69 @@ export class KeyUtil {
      *
      * @returns {DatastoreKey}
      */
-    public extractKey(entity: DatastoreKeyExtractable): DatastoreKey {
-        return this.keyExtractor.extractKey(entity);
-    }
+    public extractKey = (entity: DatastoreKeyExtractable) => this.keyExtractor.extractKey(entity);
+    public mapToKeys = pluralize(this.extractKey);
 
-    public idOf(entity: DatastoreKeyExtractable): string {
+
+    public extractParentKey = (entity: DatastoreKeyExtractable) => this.keyExtractor.extractParentKey(entity);
+    public mapToParentKeys = pluralize(this.extractParentKey);
+
+
+    public idOf = (entity: DatastoreKeyExtractable) => {
         const { id = '' } = this.extractKey(entity) || {};
         return id && idToString(id);
-    }
-
-    public parentIdOf(entity: DatastoreKeyExtractable): string {
-        return this.idOf(this.extractParentKey(entity));
     };
+    public mapToIDs = pluralize(this.idOf);
 
-    public nameOf(entity: DatastoreKeyExtractable): string {
+    public parentIdOf = (entity: DatastoreKeyExtractable) => this.idOf(this.extractParentKey(entity));
+    public mapToParentIDs = pluralize(this.parentIdOf);
+
+
+    public nameOf = (entity: DatastoreKeyExtractable) => {
         const { name = '' } = this.extractKey(entity) || {};
         return name;
-    }
+    };
+    public mapToNames = pluralize(this.nameOf);
 
-    public parentNameOf(entity: DatastoreKeyExtractable): string {
-        return this.nameOf(this.extractParentKey(entity));
-    }
+
+    public parentNameOf = (entity: DatastoreKeyExtractable) => this.nameOf(this.extractParentKey(entity));
+    public mapToParentNames = pluralize(this.nameOf);
+
 
     /**
      * UIDs for string representations of keys
      */
-    public uidFor(entity: DatastoreKeyExtractable): string {
-        return keyToUID(this.extractKey(entity));
-    }
+    public uidFor = uidify(this.extractKey);
+    public mapToUIDs = pluralize(this.uidFor);
 
-    public parentUidFor(entity: DatastoreKeyExtractable): string {
-        return keyToUID(this.extractParentKey(entity));
-    }
+    public parentUidFor = uidify(this.extractParentKey);
+    public mapToParentUIDs = pluralize(this.parentUidFor);
 
-    public extractParentKey(entity: DatastoreKeyExtractable): DatastoreKey {
-        return this.keyExtractor.extractParentKey(entity);
-    }
+    public uidToKey = (uid: string) => this.buildMixedKey(JSON.parse(uid));
 
-    public uidToKey(uid: string): DatastoreKey {
-        return this.buildMixedKey(JSON.parse(uid));
-    }
 
-    public base64UidToKey(base64Uid: string): DatastoreKey {
-        const decodedKey = Buffer.from(base64Uid, 'base64').toString();
-        return this.uidToKey(decodedKey);
-    }
+    /**
+     * Base64 UIDs for passing around in URLs
+     */
+    public base64UidFor = base64ify(this.uidFor);
+    public mapToBase64UIDs = pluralize(this.base64UidFor);
+    public base64ParentUIDFor = base64ify(this.parentUidFor);
+    public mapToBase64ParentUIDs = pluralize(this.base64ParentUIDFor);
 
-    public haveSameKey(entity: DatastoreKeyExtractable, other: DatastoreKeyExtractable): boolean {
-        return areKeysEqual(this.extractKey(entity), this.extractKey(other));
-    }
+    public base64UidToKey = (base64UID: string) => this.uidToKey(ub64.decode(base64UID).toString());
 
-    public hasId(entity: DatastoreKeyExtractable, id: string): boolean {
-        return this.idOf(entity) === id;
-    }
 
-    public hasName(entity: DatastoreKeyExtractable, name: string): boolean {
-        return this.nameOf(entity) === name;
-    }
+    /**
+     * Key predicates
+     */
+    public haveSameKey = (entity: DatastoreKeyExtractable,
+                          other: DatastoreKeyExtractable) => areKeysEqual(this.extractKey(entity),
+                                                                          this.extractKey(other)
+    );
+
+    public hasId = (entity: DatastoreKeyExtractable, id: string) => this.idOf(entity) === id;
+    public hasName = (entity: DatastoreKeyExtractable, name: string) => this.nameOf(entity) === name;
+
 
     public indexById<E extends DatastoreKeyExtractable>(entity: E | E[]): [string, E] | [string, E][] {
         return Array.isArray(entity) ? entity.map(this._doIndexById) : this._doIndexById(entity);
@@ -204,3 +188,6 @@ export class KeyUtil {
         return [this.idOf(entity), (entity.data || entity)];
     }
 }
+
+// Make TS stop complaining about unnameable type...
+export type _DsInt = DatastoreInt

@@ -103,6 +103,16 @@ describe('The Key Utility', function () {
         });
     });
 
+    describe('#base64UidFor', () => {
+        it('creates a parseable base64 UID for a key', () => {
+            const keyUID = keyUtility.base64UidFor(theEntityKey);
+
+            const parsedUidKey = keyUtility.base64UidToKey(keyUID);
+
+            theEntityKey.path.should.deep.equal(parsedUidKey.path);
+        });
+    });
+
     describe('#extractParentKey', () => {
         it('extracts parent keys from entities', () => {
             const childKey = randomKey();
