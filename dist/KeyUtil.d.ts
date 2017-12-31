@@ -34,10 +34,10 @@ export declare class KeyUtil {
     parentUidFor: (entity: any) => string;
     mapToParentUIDs: (es: any[]) => string[];
     uidToKey: (uid: string) => DatastoreKey;
-    base64UidFor: (entity: {}) => string;
-    mapToBase64UIDs: (es: {}[]) => string[];
-    base64ParentUIDFor: (entity: {}) => string;
-    mapToBase64ParentUIDs: (es: {}[]) => string[];
+    base64UidFor: (entity: any) => string;
+    mapToBase64UIDs: (es: any[]) => string[];
+    base64ParentUIDFor: (entity: any) => string;
+    mapToBase64ParentUIDs: (es: any[]) => string[];
     base64UidToKey: (base64UID: string) => DatastoreKey;
     haveSameKey: (entity: any, other: any) => boolean;
     hasId: (entity: any, id: string) => boolean;

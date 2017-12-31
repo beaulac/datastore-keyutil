@@ -38,9 +38,9 @@ class KeyUtil {
         this.parentUidFor = higher_order_helpers_1.uidify(this.extractParentKey);
         this.mapToParentUIDs = higher_order_helpers_1.pluralize(this.parentUidFor);
         this.uidToKey = (uid) => this.buildMixedKey(JSON.parse(uid));
-        this.base64UidFor = higher_order_helpers_1.base64ify(this.uidFor.bind(this));
+        this.base64UidFor = higher_order_helpers_1.base64ify(this.uidFor);
         this.mapToBase64UIDs = higher_order_helpers_1.pluralize(this.base64UidFor);
-        this.base64ParentUIDFor = higher_order_helpers_1.base64ify(this.parentUidFor.bind(this));
+        this.base64ParentUIDFor = higher_order_helpers_1.base64ify(this.parentUidFor);
         this.mapToBase64ParentUIDs = higher_order_helpers_1.pluralize(this.base64ParentUIDFor);
         this.base64UidToKey = (base64UID) => this.uidToKey(ub64.decode(base64UID).toString());
         this.haveSameKey = (entity, other) => areKeysEqual_1.areKeysEqual(this.extractKey(entity), this.extractKey(other));

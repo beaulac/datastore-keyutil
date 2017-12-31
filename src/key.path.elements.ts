@@ -1,5 +1,4 @@
 import { DatastoreInt } from '@google-cloud/datastore/entity';
-import { _DEBUG } from './key.debugging';
 import { DatastoreIdLike } from './key.types';
 
 
@@ -29,41 +28,6 @@ export function idToString(id: DatastoreIdLike): string {
     return '';
 }
 
-export function coerceDsIdToInt(datastoreId: DatastoreIdLike = ''): number {
-    if (typeof datastoreId === 'number') {
-        return Number.isSafeInteger(datastoreId)
-            ? datastoreId
-            : _invalidDsInt(datastoreId);
-    }
-
-    datastoreId = coerceDsIntToIntStr(datastoreId);
-
-    if (isValidIdString(datastoreId)) {
-        const result = parseInt(coerceDsIntToIntStr(datastoreId));
-        if (isValidNumericId(result)) {
-            return result;
-        }
-    }
-
-    return _invalidDsInt(datastoreId);
-}
-
-function coerceDsIntToIntStr(datastoreInt: DatastoreInt | string): string {
-    if (typeof datastoreInt === 'string') {
-        return datastoreInt;
-    }
-    return _isDsInt(datastoreInt) ? datastoreInt.value : _invalidDsInt(datastoreInt);
-}
-
 function _isDatastoreInt(id: any): id is DatastoreInt {
     return (id instanceof Object) && id.value;
-}
-
-function _isDsInt(maybeDsInt: any): maybeDsInt is DatastoreInt {
-    return isValidIdString(maybeDsInt.value);
-}
-
-function _invalidDsInt(datastoreId: DatastoreIdLike): never {
-    _DEBUG(`Invalid DS ID: ${datastoreId}`);
-    throw Error('key.invalidDsInt');
 }

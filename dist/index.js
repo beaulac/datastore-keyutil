@@ -6,4 +6,3 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./KeyUtil"));
 __export(require("./areKeysEqual"));
 __export(require("./keyToUid"));
-__export(require("./base32.datastore.id"));
