@@ -19,13 +19,12 @@
     "node": ">=6.5"
   },
   "dependencies": {
-    "base32.js": "^0.1.0",
     "debug": "^3.1.0",
     "equal-but-not-falsy": "^1.0.5",
     "urlsafe-base64": "^1.0.0"
   },
   "peerDependencies": {
-    "@google-cloud/datastore": "^1.2.0"
+    "@google-cloud/datastore": "^1.3.3"
   },
   "devDependencies": {
     "@google-cloud/datastore": "^1.3.3",
@@ -37,7 +36,7 @@
     "@types/urlsafe-base64": "^1.0.28",
     "chai": "^4.1.2",
     "datastore-emulator-enforcer": "^1.0.2",
-    "mocha": "^4.0.1",
+    "mocha": "^4.1.0",
     "nyc": "^11.4.1",
     "source-map-support": "^0.5.0",
     "ts-node": "^4.0.1",
