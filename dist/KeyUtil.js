@@ -20,14 +20,14 @@ class KeyUtil {
         this.extractParentKey = (entity) => this.keyExtractor.extractParentKey(entity);
         this.mapToParentKeys = higher_order_helpers_1.pluralize(this.extractParentKey);
         this.idOf = (entity) => {
-            const { id = '' } = this.extractKey(entity) || {};
-            return id && key_path_elements_1.idToString(id);
+            const { id } = this.extractKey(entity);
+            return key_path_elements_1.idToString(id);
         };
         this.mapToIDs = higher_order_helpers_1.pluralize(this.idOf);
         this.parentIdOf = (entity) => this.idOf(this.extractParentKey(entity));
         this.mapToParentIDs = higher_order_helpers_1.pluralize(this.parentIdOf);
         this.nameOf = (entity) => {
-            const { name = '' } = this.extractKey(entity) || {};
+            const { name = '' } = this.extractKey(entity);
             return name;
         };
         this.mapToNames = higher_order_helpers_1.pluralize(this.nameOf);

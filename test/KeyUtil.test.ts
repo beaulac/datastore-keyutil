@@ -1,7 +1,7 @@
 import { DatastoreKey } from '@google-cloud/datastore/entity';
 import * as chai from 'chai';
 import { KeyUtil } from '../src';
-import { randomKey, testDatastore } from './test.support';
+import { randomKey, randomNamedKey, testDatastore } from './test.support';
 
 const should = chai.should();
 const KEY_SYMBOL = testDatastore.KEY;
@@ -10,7 +10,11 @@ describe('The Key Utility', function () {
     const keyUtility = new KeyUtil(testDatastore);
 
     let theEntityKey: DatastoreKey;
-    beforeEach(() => theEntityKey = randomKey());
+    let namedKey: DatastoreKey;
+    beforeEach(() => {
+        theEntityKey = randomKey();
+        namedKey = randomNamedKey();
+    });
 
     describe('sanity check', () => {
         it('re-exports same symbol', () => {
@@ -92,6 +96,35 @@ describe('The Key Utility', function () {
         );
     });
 
+    describe('#idOf', () => {
+        it(
+            'calls errorFn when passed undefined',
+            () => {
+                return (() => keyUtility.idOf(undefined)).should.throw(/key.nonExtractable/);
+            }
+        );
+
+        it(
+            'returns id string from valid key',
+            () => keyUtility.idOf({ [KEY_SYMBOL]: theEntityKey })
+                            .should.equal(theEntityKey.id)
+        );
+    });
+
+    describe('#nameOf', () => {
+        it(
+            'calls errorFn when passed undefined',
+            () => {
+                return (() => keyUtility.nameOf(undefined)).should.throw(/key.nonExtractable/);
+            }
+        );
+
+        it(
+            'returns name from named key',
+            () => keyUtility.nameOf({ [KEY_SYMBOL]: namedKey })
+                            .should.equal(namedKey.name)
+        );
+    });
 
     describe('#uidFor', () => {
         it('creates a parseable UID for a key', () => {

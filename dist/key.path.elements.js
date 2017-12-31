@@ -13,17 +13,14 @@ function isValidStringPathElement(e) {
     return (typeof e === 'string') && e.length > 0;
 }
 exports.isValidStringPathElement = isValidStringPathElement;
-function idToString(id) {
+function idToString(id = '') {
     if (typeof id === 'number') {
         return id.toString();
     }
     if (_isDatastoreInt(id)) {
         return id.value;
     }
-    if (typeof id === 'string') {
-        return id;
-    }
-    return '';
+    return id;
 }
 exports.idToString = idToString;
 function _isDatastoreInt(id) {

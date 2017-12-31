@@ -7,6 +7,10 @@ export function randomKey(): DatastoreKey {
     return testDatastore.key(randomPath(1 + Math.floor(Math.random() * 10)));
 }
 
+export function randomNamedKey(): DatastoreKey {
+    return testDatastore.key(randomNamedPath(1 + Math.floor(Math.random() * 10)));
+}
+
 export function randomString() {
     return Math.random().toString(36).slice(2);
 }
@@ -25,8 +29,22 @@ export function randomPath(length: number) {
     return path;
 }
 
+export function randomNamedPath(length: number) {
+    const path: PathElement[] = [];
+
+    while (length--) {
+        path.push(...randomNamedSubPath_());
+    }
+
+    return path;
+}
+
 export function randomSubPath_(): [string, DatastoreInt] {
     return [randomString(), testDatastore.int(randomInt())];
+}
+
+export function randomNamedSubPath_(): [string, string] {
+    return [randomString(), Math.random().toString(36).slice(2)];
 }
 
 export class FakeDatastore {

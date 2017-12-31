@@ -125,8 +125,8 @@ export class KeyUtil {
 
 
     public idOf = (entity: DatastoreKeyExtractable) => {
-        const { id = '' } = this.extractKey(entity) || {};
-        return id && idToString(id);
+        const { id } = this.extractKey(entity);
+        return idToString(id);
     };
     public mapToIDs = pluralize(this.idOf);
 
@@ -135,7 +135,7 @@ export class KeyUtil {
 
 
     public nameOf = (entity: DatastoreKeyExtractable) => {
-        const { name = '' } = this.extractKey(entity) || {};
+        const { name = '' } = this.extractKey(entity);
         return name;
     };
     public mapToNames = pluralize(this.nameOf);
