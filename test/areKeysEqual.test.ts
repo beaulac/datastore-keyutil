@@ -1,4 +1,4 @@
-import { areKeysEqual } from '../src/areKeysEqual';
+import { areKeysEqual } from '../src';
 import { testDatastore } from './test.support';
 
 describe('"areKeysEqual" determines that keys ', () => {

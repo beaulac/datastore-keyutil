@@ -49,6 +49,18 @@ describe('The Key Utility', function () {
             builtKey.should.have.nested.property('path[0]', 'aKind');
             builtKey.should.have.nested.property('path[1]', '1234');
         });
+        it('rejects undefined path', () => {
+            (() => keyUtility.buildMixedKey(undefined as any)).should.throw('key.noPath');
+        });
+        it('rejects invalid path structure', () => {
+            (() => keyUtility.buildMixedKey({ length: 1 } as any)).should.throw('key.invalidPath');
+        });
+        it('rejects invalid kind', () => {
+            (() => keyUtility.buildMixedKey([1, 1])).should.throw('key.invalidKind');
+        });
+        it('rejects empty name',
+           () => (() => keyUtility.buildMixedKey(['aKind', ''])).should.throw('key.invalidIdentifier')
+        );
     });
 
     describe('#buildNamedKey', () => {
@@ -93,6 +105,24 @@ describe('The Key Utility', function () {
                                             [KEY_SYMBOL]: theEntityKey
                                         })
                             .should.deep.equal(theEntityKey)
+        );
+    });
+
+
+    describe('#extractParentKey', () => {
+        const key = testDatastore.key(['kind', 1]);
+        const parent = testDatastore.key(['parentKind', 2]);
+        key.parent = parent;
+
+        it(
+            'extracts parent key',
+            () => keyUtility.extractParentKey({ key })
+                            .should.deep.equal(parent)
+        );
+
+        it(
+            'throws error when key has no parent',
+            () => (() => keyUtility.extractParentKey({ key: parent })).should.throw(/key.noParent/)
         );
     });
 
