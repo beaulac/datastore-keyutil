@@ -1,14 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function isValidIdString(intstr) {
-    intstr = intstr.toString();
     return /^[1-9][\d]{0,15}$/.test(intstr);
 }
 exports.isValidIdString = isValidIdString;
 function isValidNumericId(id) {
-    return (id > 0) && (id < Number.MAX_SAFE_INTEGER);
+    return Number.isSafeInteger(id) && id > 0;
 }
 exports.isValidNumericId = isValidNumericId;
+function isValidNumericPathElement(e) {
+    return (typeof e === 'string')
+        ? isValidIdString(e)
+        : isValidNumericId(e);
+}
+exports.isValidNumericPathElement = isValidNumericPathElement;
 function isValidStringPathElement(e) {
     return (typeof e === 'string') && e.length > 0;
 }

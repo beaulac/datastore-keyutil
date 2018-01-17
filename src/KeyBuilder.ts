@@ -1,7 +1,7 @@
 import * as Datastore from '@google-cloud/datastore';
 import { DatastoreInt, DatastoreKey, DatastoreKeyPath } from '@google-cloud/datastore/entity';
 import { _DEBUG } from './key.debugging';
-import { isValidIdString, isValidNumericId, isValidStringPathElement } from './key.path.elements';
+import { isValidNumericPathElement, isValidStringPathElement } from './key.path.elements';
 import { DatastoreIdLike, KeyErrorThrower } from './key.types';
 
 export class KeyBuilder {
@@ -73,7 +73,7 @@ export class KeyBuilder {
             _DEBUG('Was passed a pre-converted datastore int: ', pathElement);
             return pathElement;
         }
-        if (isValidIdString(pathElement) || isValidNumericId(pathElement)) {
+        if (isValidNumericPathElement(pathElement)) {
             return this.datastore.int(pathElement);
         }
     }

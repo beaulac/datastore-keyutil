@@ -61,6 +61,9 @@ describe('The Key Utility', function () {
         it('rejects empty name',
            () => (() => keyUtility.buildMixedKey(['aKind', ''])).should.throw('key.invalidIdentifier')
         );
+        it('rejects undefined name',
+           () => (() => keyUtility.buildMixedKey(['aKind', undefined] as any)).should.throw('key.invalidIdentifier')
+        );
     });
 
     describe('#buildNamedKey', () => {

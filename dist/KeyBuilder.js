@@ -62,7 +62,7 @@ class KeyBuilder {
             key_debugging_1._DEBUG('Was passed a pre-converted datastore int: ', pathElement);
             return pathElement;
         }
-        if (key_path_elements_1.isValidIdString(pathElement) || key_path_elements_1.isValidNumericId(pathElement)) {
+        if (key_path_elements_1.isValidNumericPathElement(pathElement)) {
             return this.datastore.int(pathElement);
         }
     }
