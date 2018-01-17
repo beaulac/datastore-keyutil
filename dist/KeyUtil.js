@@ -33,6 +33,13 @@ class KeyUtil {
         this.mapToNames = higher_order_helpers_1.pluralize(this.nameOf);
         this.parentNameOf = (entity) => this.nameOf(this.extractParentKey(entity));
         this.mapToParentNames = higher_order_helpers_1.pluralize(this.nameOf);
+        this.identifierOf = (entity) => {
+            const key = this.extractKey(entity);
+            return key.name || key.id;
+        };
+        this.mapToIdentifiers = higher_order_helpers_1.pluralize(this.identifierOf);
+        this.parentIdentifierOf = (entity) => this.identifierOf(this.extractParentKey(entity));
+        this.mapToParentIdentifiers = higher_order_helpers_1.pluralize(this.identifierOf);
         this.uidFor = higher_order_helpers_1.uidify(this.extractKey);
         this.mapToUIDs = higher_order_helpers_1.pluralize(this.uidFor);
         this.parentUidFor = higher_order_helpers_1.uidify(this.extractParentKey);

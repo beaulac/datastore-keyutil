@@ -159,6 +159,27 @@ describe('The Key Utility', function () {
         );
     });
 
+    describe('#identifierOf', () => {
+        it(
+            'calls errorFn when passed undefined',
+            () => {
+                return (() => keyUtility.nameOf(undefined)).should.throw(/key.nonExtractable/);
+            }
+        );
+
+        it(
+            'returns name from named key',
+            () => keyUtility.nameOf({ [KEY_SYMBOL]: namedKey })
+                            .should.equal(namedKey.name)
+        );
+
+        it(
+            'returns id string from numeric key',
+            () => keyUtility.idOf({ [KEY_SYMBOL]: theEntityKey })
+                            .should.equal(theEntityKey.id)
+        );
+    });
+
     describe('#uidFor', () => {
         it('creates a parseable UID for a key', () => {
             const keyUID = keyUtility.uidFor(theEntityKey);

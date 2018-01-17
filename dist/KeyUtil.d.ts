@@ -29,6 +29,10 @@ export declare class KeyUtil {
     mapToNames: (es: any[]) => string[];
     parentNameOf: (entity: any) => string;
     mapToParentNames: (es: any[]) => string[];
+    identifierOf: (entity: any) => string | undefined;
+    mapToIdentifiers: (es: any[]) => (string | undefined)[];
+    parentIdentifierOf: (entity: any) => string | undefined;
+    mapToParentIdentifiers: (es: any[]) => (string | undefined)[];
     uidFor: (entity: any) => string;
     mapToUIDs: (es: any[]) => string[];
     parentUidFor: (entity: any) => string;

@@ -145,6 +145,17 @@ export class KeyUtil {
     public mapToParentNames = pluralize(this.nameOf);
 
 
+    public identifierOf = (entity: DatastoreKeyExtractable) => {
+        const key = this.extractKey(entity);
+        return key.name || key.id;
+    };
+    public mapToIdentifiers = pluralize(this.identifierOf);
+
+
+    public parentIdentifierOf = (entity: DatastoreKeyExtractable) => this.identifierOf(this.extractParentKey(entity));
+    public mapToParentIdentifiers = pluralize(this.identifierOf);
+
+
     /**
      * UIDs for string representations of keys
      */
