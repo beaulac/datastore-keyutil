@@ -98,11 +98,11 @@
   version "0.0.30"
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-0.0.30.tgz#dc1e40f7af3b9c815013a7860e6252f6352a84df"
 
-"@types/google-cloud__datastore@octhuber/datastore-dts#master":
-  version "1.3.3"
-  resolved "https://codeload.github.com/octhuber/datastore-dts/tar.gz/c98b21663b56636d87ba2b66fa1c15f7a7035007"
+"@types/google-cloud__datastore@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@types/google-cloud__datastore/-/google-cloud__datastore-1.3.0.tgz#ea21eaf739c04e28ae06e41738051e391f6ff115"
   dependencies:
-    "@types/node" "^8.5.2"
+    "@types/node" "*"
 
 "@types/long@^3.0.32":
   version "3.0.32"
@@ -114,7 +114,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node@*", "@types/node@^8.0.53", "@types/node@^8.5.2":
+"@types/node@*", "@types/node@^8.0.53":
   version "8.5.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.5.2.tgz#83b8103fa9a2c2e83d78f701a9aa7c9539739aa5"
 
