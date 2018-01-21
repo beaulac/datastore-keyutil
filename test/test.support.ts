@@ -48,14 +48,14 @@ export function randomNamedSubPath_(): [string, string] {
 }
 
 export class FakeDatastore {
-    static KEY = Symbol('KEY');
-    KEY = FakeDatastore.KEY;
+    public static KEY = Symbol('KEY');
+    public KEY = FakeDatastore.KEY;
 
-    int() {
+    public int() {
         return {};
     }
 
-    key() {
+    public key() {
         return {};
     }
 }

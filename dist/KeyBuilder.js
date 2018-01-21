@@ -13,7 +13,7 @@ class KeyBuilder {
     }
     buildNamedKey(keyPath) {
         this._validateIsNonEmptyMappable(keyPath);
-        if (keyPath.every(e => key_path_elements_1.isValidStringPathElement(e))) {
+        if (keyPath.every((e) => key_path_elements_1.isValidStringPathElement(e))) {
             return this.datastore.key(keyPath);
         }
         else {

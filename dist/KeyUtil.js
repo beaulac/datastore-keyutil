@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const ub64 = require("urlsafe-base64");
 const areKeysEqual_1 = require("./areKeysEqual");
+require("./AugmentedDatastore");
 const higher_order_helpers_1 = require("./higher.order.helpers");
 const key_path_elements_1 = require("./key.path.elements");
 const KeyBuilder_1 = require("./KeyBuilder");

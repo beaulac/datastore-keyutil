@@ -18,7 +18,7 @@ export class KeyBuilder {
 
     public buildNamedKey(keyPath: DatastoreKeyPath): DatastoreKey {
         this._validateIsNonEmptyMappable(keyPath);
-        if (keyPath.every(e => isValidStringPathElement(e))) {
+        if (keyPath.every((e) => isValidStringPathElement(e))) {
             return this.datastore.key(keyPath);
         } else {
             return this.errorFn('key.invalidName');

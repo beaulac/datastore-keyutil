@@ -1,6 +1,7 @@
 /// <reference types="google-cloud__datastore" />
 import * as Datastore from '@google-cloud/datastore';
 import { DatastoreInt, DatastoreKey, DatastoreKeyPath } from '@google-cloud/datastore/entity';
+import './AugmentedDatastore';
 import { DatastoreKeylike } from './isKeylike';
 import { DatastoreKeyExtractable } from './key.types';
 import { KeyUtilOptions } from './KeyUtilOptions';
@@ -46,7 +47,7 @@ export declare class KeyUtil {
     haveSameKey: (entity: any, other: any) => boolean;
     hasId: (entity: any, id: string) => boolean;
     hasName: (entity: any, name: string) => boolean;
-    indexById<E extends DatastoreKeyExtractable>(entity: E | E[]): [string, E] | [string, E][];
+    indexById<E extends DatastoreKeyExtractable>(entity: E | E[]): [string, E] | Array<[string, E]>;
     private _doIndexById<E>(entity);
 }
 export declare type _DsInt = DatastoreInt;

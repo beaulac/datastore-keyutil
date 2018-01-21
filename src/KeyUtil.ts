@@ -2,10 +2,11 @@ import * as Datastore from '@google-cloud/datastore';
 import { DatastoreInt, DatastoreKey, DatastoreKeyPath } from '@google-cloud/datastore/entity';
 import * as ub64 from 'urlsafe-base64';
 import { areKeysEqual } from './areKeysEqual';
+import './AugmentedDatastore';
 import { base64ify, pluralize, uidify } from './higher.order.helpers';
 import { DatastoreKeylike } from './isKeylike';
 import { idToString } from './key.path.elements';
-import { DatastoreKeyExtractable, KeyErrorThrower, KeyUtilAugmentedDatastore } from './key.types';
+import { DatastoreKeyExtractable, KeyErrorThrower } from './key.types';
 import { KeyBuilder } from './KeyBuilder';
 import { KeyExtractor } from './KeyExtractor';
 import { defaultOptions, KeyUtilOptions } from './KeyUtilOptions';
@@ -22,13 +23,13 @@ export class KeyUtil {
             ? Object.assign(defaultOptions(), options)
             : defaultOptions();
 
-        this.errorFn = (<KeyUtilOptions>options).errorFn;
+        this.errorFn = (options as KeyUtilOptions).errorFn;
 
         this.keyBuilder = new KeyBuilder(this.datastore, this.errorFn);
         this.keyExtractor = new KeyExtractor(this.datastore, this.keyBuilder, this.errorFn);
 
         if (options.embed) {
-            (datastore as KeyUtilAugmentedDatastore).keyUtil = this;
+            (datastore as any).keyUtil = this;
             (datastore.constructor as any).keyUtil = this;
         }
     }
@@ -127,7 +128,7 @@ export class KeyUtil {
     public idOf = (entity: DatastoreKeyExtractable) => {
         const { id } = this.extractKey(entity);
         return idToString(id);
-    };
+    }
     public mapToIDs = pluralize(this.idOf);
 
     public parentIdOf = (entity: DatastoreKeyExtractable) => this.idOf(this.extractParentKey(entity));
@@ -137,7 +138,7 @@ export class KeyUtil {
     public nameOf = (entity: DatastoreKeyExtractable) => {
         const { name = '' } = this.extractKey(entity);
         return name;
-    };
+    }
     public mapToNames = pluralize(this.nameOf);
 
 
@@ -148,7 +149,7 @@ export class KeyUtil {
     public identifierOf = (entity: DatastoreKeyExtractable) => {
         const key = this.extractKey(entity);
         return key.name || key.id;
-    };
+    }
     public mapToIdentifiers = pluralize(this.identifierOf);
 
 
@@ -185,13 +186,13 @@ export class KeyUtil {
     public haveSameKey = (entity: DatastoreKeyExtractable,
                           other: DatastoreKeyExtractable) => areKeysEqual(this.extractKey(entity),
                                                                           this.extractKey(other)
-    );
+    )
 
     public hasId = (entity: DatastoreKeyExtractable, id: string) => this.idOf(entity) === id;
     public hasName = (entity: DatastoreKeyExtractable, name: string) => this.nameOf(entity) === name;
 
 
-    public indexById<E extends DatastoreKeyExtractable>(entity: E | E[]): [string, E] | [string, E][] {
+    public indexById<E extends DatastoreKeyExtractable>(entity: E | E[]): [string, E] | Array<[string, E]> {
         return Array.isArray(entity) ? entity.map(this._doIndexById) : this._doIndexById(entity);
     }
 
@@ -201,4 +202,4 @@ export class KeyUtil {
 }
 
 // Make TS stop complaining about unnameable type...
-export type _DsInt = DatastoreInt
+export type _DsInt = DatastoreInt;

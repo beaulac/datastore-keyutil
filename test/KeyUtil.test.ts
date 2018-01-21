@@ -6,7 +6,7 @@ import { randomKey, randomNamedKey, testDatastore } from './test.support';
 const should = chai.should();
 const KEY_SYMBOL = testDatastore.KEY;
 
-describe('The Key Utility', function () {
+describe('The Key Utility', () => {
     const keyUtility = new KeyUtil(testDatastore);
 
     let theEntityKey: DatastoreKey;
@@ -232,7 +232,7 @@ describe('The Key Utility', function () {
         });
 
         it('extracts keys from entities', () => {
-            let anEntity = { [KEY_SYMBOL]: theEntityKey };
+            const anEntity = { [KEY_SYMBOL]: theEntityKey };
 
             const extractedKeys = keyUtility.mapToKeys([anEntity]);
 
@@ -240,28 +240,28 @@ describe('The Key Utility', function () {
         });
     });
 
-    describe('#allocateKeys', function () {
-        it('allocates a key given a path', function () {
+    describe('#allocateKeys', () => {
+        it('allocates a key given a path', () => {
             const kind = 'a_kind';
 
             return keyUtility.allocateKeys([kind])
-                             .then(key => {
+                             .then((key) => {
                                  key.should.have.property('kind', kind);
                                  key.should.have.property('id');
                              });
         });
 
-        it('allocates a key given an incomplete key', function () {
+        it('allocates a key given an incomplete key', () => {
             const kind = 'a_kind';
 
             return keyUtility.allocateKeys(testDatastore.key([kind]))
-                             .then(key => {
+                             .then((key) => {
                                  key.should.have.property('kind', kind);
                                  key.should.have.property('id');
                              });
         });
 
-        it('allocates keys given a path', function () {
+        it('allocates keys given a path', () => {
             const kind = 'a_kind';
 
             return keyUtility.allocateKeys([kind], 2)
@@ -274,7 +274,7 @@ describe('The Key Utility', function () {
                                  keys[1].should.have.property('id');
                              });
         });
-        it('allocates keys given an incomplete key', function () {
+        it('allocates keys given an incomplete key', () => {
             const kind = 'a_kind';
 
             return keyUtility.allocateKeys([kind], 2)
