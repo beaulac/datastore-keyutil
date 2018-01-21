@@ -8,12 +8,17 @@
     "dist"
   ],
   "author": "Antoine Beauvais-Lacasse <antoine.beaulac@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/beaulac/datastore-keyutil.git"
+  },
   "license": "ISC",
   "scripts": {
     "prepublishOnly": "npm run build",
     "build": "tsc",
     "test": "mocha",
-    "coverage": "nyc mocha"
+    "coverage": "nyc mocha",
+    "lint": "tslint --project ."
   },
   "engines": {
     "node": ">=6.5"
@@ -24,19 +29,19 @@
     "urlsafe-base64": "^1.0.0"
   },
   "peerDependencies": {
-    "@google-cloud/datastore": "^1.3.3"
+    "@google-cloud/datastore": ">=1.1.0"
   },
   "devDependencies": {
     "@google-cloud/datastore": "^1.3.3",
-    "@types/chai": "^4.0.9",
-    "@types/debug": "^0.0.30",
-    "@types/google-cloud__datastore": "^1.3.0",
-    "@types/mocha": "^2.2.44",
+    "@types/chai": "latest",
+    "@types/debug": "latest",
+    "@types/google-cloud__datastore": "latest",
+    "@types/mocha": "latest",
     "@types/node": "*",
-    "@types/urlsafe-base64": "^1.0.28",
+    "@types/urlsafe-base64": "latest",
     "chai": "^4.1.2",
     "datastore-emulator-enforcer": "^1.0.2",
-    "mocha": "^4.1.0",
+    "mocha": "^5.0.0",
     "nyc": "^11.4.1",
     "source-map-support": "^0.5.0",
     "ts-node": "^4.0.1",
