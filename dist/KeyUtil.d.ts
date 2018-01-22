@@ -1,6 +1,6 @@
 /// <reference types="google-cloud__datastore" />
 import * as Datastore from '@google-cloud/datastore';
-import { DatastoreInt, DatastoreKey, DatastoreKeyPath } from '@google-cloud/datastore/entity';
+import * as Entity from '@google-cloud/datastore/entity';
 import './AugmentedDatastore';
 import { DatastoreKeylike } from './isKeylike';
 import { DatastoreKeyExtractable } from './key.types';
@@ -12,16 +12,16 @@ export declare class KeyUtil {
     private keyExtractor;
     private errorFn;
     constructor(datastore: Datastore, options?: Partial<KeyUtilOptions>);
-    setKey<T>(entity: T, key: DatastoreKey): T;
-    buildMixedKey: (keyPath: (string | number | DatastoreInt)[]) => DatastoreKey;
-    buildKey: (keyPath: (string | number | DatastoreInt)[]) => DatastoreKey;
-    buildNamedKey: (keyPath: (string | number | DatastoreInt)[]) => DatastoreKey;
-    coerceKeylikeToKey: (keylike: DatastoreKeylike) => DatastoreKey;
-    allocateKeys(keyPath: DatastoreKeyPath | DatastoreKeylike, count?: number): Promise<DatastoreKey | DatastoreKey[]>;
-    extractKey: (entity: any) => DatastoreKey;
-    mapToKeys: (es: any[]) => DatastoreKey[];
-    extractParentKey: (entity: any) => DatastoreKey;
-    mapToParentKeys: (es: any[]) => DatastoreKey[];
+    setKey<T>(entity: T, key: Entity.DatastoreKey): T;
+    buildMixedKey: (keyPath: Entity.PathElement[]) => Entity.DatastoreKey;
+    buildKey: (keyPath: Entity.PathElement[]) => Entity.DatastoreKey;
+    buildNamedKey: (keyPath: Entity.PathElement[]) => Entity.DatastoreKey;
+    coerceKeylikeToKey: (keylike: DatastoreKeylike) => Entity.DatastoreKey;
+    allocateKeys(keyPath: Entity.DatastoreKeyPath | DatastoreKeylike, count?: number): Promise<Entity.DatastoreKey | Entity.DatastoreKey[]>;
+    extractKey: (entity: any) => Entity.DatastoreKey;
+    mapToKeys: (es: any[]) => Entity.DatastoreKey[];
+    extractParentKey: (entity: any) => Entity.DatastoreKey;
+    mapToParentKeys: (es: any[]) => Entity.DatastoreKey[];
     idOf: (entity: any) => string;
     mapToIDs: (es: any[]) => string[];
     parentIdOf: (entity: any) => string;
@@ -38,16 +38,15 @@ export declare class KeyUtil {
     mapToUIDs: (es: any[]) => string[];
     parentUidFor: (entity: any) => string;
     mapToParentUIDs: (es: any[]) => string[];
-    uidToKey: (uid: string) => DatastoreKey;
+    uidToKey: (uid: string) => Entity.DatastoreKey;
     base64UidFor: (entity: any) => string;
     mapToBase64UIDs: (es: any[]) => string[];
     base64ParentUIDFor: (entity: any) => string;
     mapToBase64ParentUIDs: (es: any[]) => string[];
-    base64UidToKey: (base64UID: string) => DatastoreKey;
+    base64UidToKey: (base64UID: string) => Entity.DatastoreKey;
     haveSameKey: (entity: any, other: any) => boolean;
     hasId: (entity: any, id: string) => boolean;
     hasName: (entity: any, name: string) => boolean;
     indexById<E extends DatastoreKeyExtractable>(entity: E | E[]): [string, E] | Array<[string, E]>;
     private _doIndexById<E>(entity);
 }
-export declare type _DsInt = DatastoreInt;

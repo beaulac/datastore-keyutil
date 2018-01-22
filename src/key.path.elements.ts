@@ -1,5 +1,4 @@
-import { DatastoreInt } from '@google-cloud/datastore/entity';
-import { DatastoreIdLike } from './key.types';
+import { PathElement } from '@google-cloud/datastore/entity';
 
 
 export function isValidIdString(intstr: string): intstr is string {
@@ -16,11 +15,11 @@ export function isValidNumericPathElement(e: string | number): boolean {
         : isValidNumericId(e);
 }
 
-export function isValidStringPathElement(e: DatastoreIdLike): e is string {
+export function isValidStringPathElement(e: PathElement): e is string {
     return (typeof e === 'string') && e.length > 0;
 }
 
-export function idToString(id: DatastoreIdLike = ''): string {
+export function idToString(id: PathElement = ''): string {
     if (typeof id === 'number') {
         return id.toString();
     }
@@ -30,6 +29,6 @@ export function idToString(id: DatastoreIdLike = ''): string {
     return id;
 }
 
-function _isDatastoreInt(id: any): id is DatastoreInt {
+function _isDatastoreInt(id: any): id is { value: string } {
     return (id instanceof Object) && id.value;
 }

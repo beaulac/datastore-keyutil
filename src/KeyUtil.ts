@@ -1,5 +1,5 @@
 import * as Datastore from '@google-cloud/datastore';
-import { DatastoreInt, DatastoreKey, DatastoreKeyPath } from '@google-cloud/datastore/entity';
+import * as Entity from '@google-cloud/datastore/entity';
 import * as ub64 from 'urlsafe-base64';
 import { areKeysEqual } from './areKeysEqual';
 import './AugmentedDatastore';
@@ -34,7 +34,7 @@ export class KeyUtil {
         }
     }
 
-    public setKey<T>(entity: T, key: DatastoreKey): T {
+    public setKey<T>(entity: T, key: Entity.DatastoreKey): T {
         if (entity) {
             (entity as any)[this.KEY_SYMBOL] = key;
         }
@@ -44,7 +44,7 @@ export class KeyUtil {
     /**
      * Builds MIXED keys (keys with IDs OR names).
      *
-     * @param {Array.<DatastoreIdLike>} keyPath - Has form [ Kind, Identifier, Kind, Identifier, ... ]
+     * @param {Array.<Entity.PathElement>} keyPath - Has form [ Kind, Identifier, Kind, Identifier, ... ]
      *
      * @throws 'key.noPath' when keyPath is falsy.
      * @throws 'key.invalidPath' when keyPath is non-mappable.
@@ -52,13 +52,13 @@ export class KeyUtil {
      *
      * @returns {DatastoreKey}
      */
-    public buildMixedKey = (keyPath: DatastoreKeyPath) => this.keyBuilder.buildMixedKey(keyPath);
+    public buildMixedKey = (keyPath: Entity.DatastoreKeyPath) => this.keyBuilder.buildMixedKey(keyPath);
 
     /**
      * Builds NUMERIC keys (keys with IDs, not names).
      * Named keys should be created with {@link buildNamedKey}.
      *
-     * @param {Array.<DatastoreIdLike>} keyPath - Has form [ Kind, ID, Kind, ID, ... ]
+     * @param {Array.<Entity.PathElement>} keyPath - Has form [ Kind, ID, Kind, ID, ... ]
      *
      * @throws 'key.noPath' when keyPath is falsy.
      * @throws 'key.invalidPath' when keyPath is non-mappable.
@@ -66,7 +66,7 @@ export class KeyUtil {
      *
      * @returns {DatastoreKey}
      */
-    public buildKey = (keyPath: DatastoreKeyPath) => this.keyBuilder.buildNumericKey(keyPath);
+    public buildKey = (keyPath: Entity.DatastoreKeyPath) => this.keyBuilder.buildNumericKey(keyPath);
 
     /**
      * Builds NAMED keys (keys with names, not IDs).
@@ -79,7 +79,7 @@ export class KeyUtil {
      *
      * @returns {DatastoreKey}
      */
-    public buildNamedKey = (keyPath: DatastoreKeyPath) => this.keyBuilder.buildNamedKey(keyPath);
+    public buildNamedKey = (keyPath: Entity.DatastoreKeyPath) => this.keyBuilder.buildNamedKey(keyPath);
 
     /**
      * Coerces any object (e.g. deserialized from Key JSON) to actual instance of {@link DatastoreKey}.
@@ -94,8 +94,8 @@ export class KeyUtil {
     public coerceKeylikeToKey = (keylike: DatastoreKeylike) => this.keyExtractor.coerceKeylikeToKey(keylike);
 
 
-    public allocateKeys(keyPath: DatastoreKeyPath | DatastoreKeylike,
-                        count = 1): Promise<DatastoreKey | DatastoreKey[]> {
+    public allocateKeys(keyPath: Entity.DatastoreKeyPath | DatastoreKeylike,
+                        count = 1): Promise<Entity.DatastoreKey | Entity.DatastoreKey[]> {
         const incompleteKey = Array.isArray(keyPath)
             ? this.buildMixedKey(keyPath)
             : this.coerceKeylikeToKey(keyPath);
@@ -179,7 +179,6 @@ export class KeyUtil {
 
     public base64UidToKey = (base64UID: string) => this.uidToKey(ub64.decode(base64UID).toString());
 
-
     /**
      * Key predicates
      */
@@ -200,6 +199,3 @@ export class KeyUtil {
         return [this.idOf(entity), (entity.data || entity)];
     }
 }
-
-// Make TS stop complaining about unnameable type...
-export type _DsInt = DatastoreInt;

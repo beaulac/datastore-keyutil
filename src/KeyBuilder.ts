@@ -1,8 +1,8 @@
 import * as Datastore from '@google-cloud/datastore';
-import { DatastoreInt, DatastoreKey, DatastoreKeyPath } from '@google-cloud/datastore/entity';
+import { DatastoreInt, DatastoreKey, DatastoreKeyPath, PathElement } from '@google-cloud/datastore/entity';
 import { _DEBUG } from './key.debugging';
 import { isValidNumericPathElement, isValidStringPathElement } from './key.path.elements';
-import { DatastoreIdLike, KeyErrorThrower } from './key.types';
+import { KeyErrorThrower } from './key.types';
 
 export class KeyBuilder {
 
@@ -31,7 +31,7 @@ export class KeyBuilder {
         return this.datastore.key(keyPath.map((e, i) => this._parseNumericPathElement(e, i)));
     }
 
-    private _parseNumericPathElement(pathElement: DatastoreIdLike, idx: number): DatastoreIdLike {
+    private _parseNumericPathElement(pathElement: PathElement, idx: number): PathElement {
         if (idx % 2 === 0) {
             return pathElement;
         } else {
@@ -39,13 +39,13 @@ export class KeyBuilder {
         }
     }
 
-    private _parseMixedPathElement(pathElement: DatastoreIdLike, idx: number): DatastoreIdLike {
+    private _parseMixedPathElement(pathElement: PathElement, idx: number): PathElement {
         return (idx % 2)
             ? this._parseIdentifier(pathElement)
             : this._parseKind(pathElement);
     }
 
-    private _validateIsNonEmptyMappable(keyPath: DatastoreIdLike[]): void {
+    private _validateIsNonEmptyMappable(keyPath: DatastoreKeyPath): void {
         if (!(keyPath && keyPath.length)) {
             _DEBUG(`Received an empty path: ${JSON.stringify(keyPath)}`);
             return this.errorFn('key.noPath');
@@ -56,7 +56,7 @@ export class KeyBuilder {
         }
     }
 
-    private _parseKind(pathElement: DatastoreIdLike): string {
+    private _parseKind(pathElement: PathElement): string {
         if (isValidStringPathElement(pathElement)) {
             return pathElement;
         }
@@ -64,11 +64,11 @@ export class KeyBuilder {
         return this.errorFn('key.invalidKind', pathElement);
     }
 
-    private _parseIdentifier(pathElement: DatastoreIdLike): DatastoreIdLike {
+    private _parseIdentifier(pathElement: PathElement): PathElement {
         return this._parseId(pathElement) || this._parseName(pathElement);
     }
 
-    private _parseId(pathElement: DatastoreIdLike): number | DatastoreInt | undefined {
+    private _parseId(pathElement: PathElement): number | DatastoreInt | undefined {
         if (this.datastore.isInt(pathElement)) { // Guard clause, don't double-convert.
             _DEBUG('Was passed a pre-converted datastore int: ', pathElement);
             return pathElement;
@@ -78,7 +78,7 @@ export class KeyBuilder {
         }
     }
 
-    private _parseName(pathElement: DatastoreIdLike): string {
+    private _parseName(pathElement: PathElement): string {
         if (isValidStringPathElement(pathElement)) {
             return pathElement;
         }
