@@ -15,6 +15,7 @@
     "allowSyntheticDefaultImports": true,
     "noEmitOnError": true,
     "pretty": true,
+    "skipLibCheck": true,
     "typeRoots": [
       "node_modules/@types"
     ]

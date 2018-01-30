@@ -1,6 +1,6 @@
 {
   "name": "datastore-keyutil",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Key utility for google-cloud datastore.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,6 +15,7 @@
   "license": "ISC",
   "scripts": {
     "prepublishOnly": "npm run build",
+    "docs": "typedoc --mode file --readme none --target ES5 --theme markdown --excludeExternals --excludeNotExported --excludePrivate --out docs --entryPoint 'KeyUtil' src/KeyUtil.ts",
     "build": "tsc",
     "test": "mocha",
     "coverage": "nyc mocha",
@@ -46,6 +47,8 @@
     "source-map-support": "^0.5.0",
     "ts-node": "^4.0.1",
     "tslint": "^5.8.0",
+    "typedoc": "^0.9.0",
+    "typedoc-plugin-markdown": "^1.0.12",
     "typescript": "^2.6.2"
   }
 }
