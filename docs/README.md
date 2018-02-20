@@ -15,6 +15,7 @@
 * [KEY_SYMBOL](#key_symbol)
 * [base64ParentUIDFor](#base64parentuidfor)
 * [base64UidFor](#base64uidfor)
+* [keyToUid](#keytouid)
 * [mapToBase64ParentUIDs](#maptobase64parentuids)
 * [mapToBase64UIDs](#maptobase64uids)
 * [mapToIDs](#maptoids)
@@ -64,7 +65,7 @@
 ### ⊕ **new KeyUtil**(datastore: *`Datastore`*, options?: *`Partial`.<`KeyUtilOptions`>*): [KeyUtil]()
 
 
-*Defined in [KeyUtil.ts:19](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L19)*
+*Defined in [KeyUtil.ts:20](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L20)*
 
 
 
@@ -91,7 +92,7 @@
 
 **●  KEY_SYMBOL**:  *`symbol`*  =  this.datastore.KEY
 
-*Defined in [KeyUtil.ts:15](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L15)*
+*Defined in [KeyUtil.ts:16](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L16)*
 
 
 
@@ -105,7 +106,7 @@ ___
 
 **●  base64ParentUIDFor**:  *`function`*  =  base64ify(this.parentUidFor)
 
-*Defined in [KeyUtil.ts:177](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L177)*
+*Defined in [KeyUtil.ts:178](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L178)*
 
 
 #### Type declaration
@@ -138,7 +139,7 @@ ___
 
 **●  base64UidFor**:  *`function`*  =  base64ify(this.uidFor)
 
-*Defined in [KeyUtil.ts:175](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L175)*
+*Defined in [KeyUtil.ts:176](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L176)*
 
 
 
@@ -168,13 +169,27 @@ Base64 UIDs for passing around in URLs
 
 ___
 
+<a id="keytouid"></a>
+
+###  keyToUid
+
+**●  keyToUid**:  *`keyToUID`*  =  keyToUID
+
+*Defined in [KeyUtil.ts:171](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L171)*
+
+
+
+
+
+___
+
 <a id="maptobase64parentuids"></a>
 
 ###  mapToBase64ParentUIDs
 
 **●  mapToBase64ParentUIDs**:  *`function`*  =  pluralize(this.base64ParentUIDFor)
 
-*Defined in [KeyUtil.ts:178](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L178)*
+*Defined in [KeyUtil.ts:179](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L179)*
 
 
 #### Type declaration
@@ -207,7 +222,7 @@ ___
 
 **●  mapToBase64UIDs**:  *`function`*  =  pluralize(this.base64UidFor)
 
-*Defined in [KeyUtil.ts:176](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L176)*
+*Defined in [KeyUtil.ts:177](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L177)*
 
 
 #### Type declaration
@@ -240,7 +255,7 @@ ___
 
 **●  mapToIDs**:  *`function`*  =  pluralize(this.idOf)
 
-*Defined in [KeyUtil.ts:132](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L132)*
+*Defined in [KeyUtil.ts:133](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L133)*
 
 
 #### Type declaration
@@ -273,7 +288,7 @@ ___
 
 **●  mapToIdentifiers**:  *`function`*  =  pluralize(this.identifierOf)
 
-*Defined in [KeyUtil.ts:153](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L153)*
+*Defined in [KeyUtil.ts:154](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L154)*
 
 
 #### Type declaration
@@ -306,7 +321,7 @@ ___
 
 **●  mapToKeys**:  *`function`*  =  pluralize(this.extractKey)
 
-*Defined in [KeyUtil.ts:121](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L121)*
+*Defined in [KeyUtil.ts:122](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L122)*
 
 
 #### Type declaration
@@ -339,7 +354,7 @@ ___
 
 **●  mapToNames**:  *`function`*  =  pluralize(this.nameOf)
 
-*Defined in [KeyUtil.ts:142](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L142)*
+*Defined in [KeyUtil.ts:143](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L143)*
 
 
 #### Type declaration
@@ -372,7 +387,7 @@ ___
 
 **●  mapToParentIDs**:  *`function`*  =  pluralize(this.parentIdOf)
 
-*Defined in [KeyUtil.ts:135](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L135)*
+*Defined in [KeyUtil.ts:136](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L136)*
 
 
 #### Type declaration
@@ -405,7 +420,7 @@ ___
 
 **●  mapToParentIdentifiers**:  *`function`*  =  pluralize(this.identifierOf)
 
-*Defined in [KeyUtil.ts:157](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L157)*
+*Defined in [KeyUtil.ts:158](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L158)*
 
 
 #### Type declaration
@@ -438,7 +453,7 @@ ___
 
 **●  mapToParentKeys**:  *`function`*  =  pluralize(this.extractParentKey)
 
-*Defined in [KeyUtil.ts:125](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L125)*
+*Defined in [KeyUtil.ts:126](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L126)*
 
 
 #### Type declaration
@@ -471,7 +486,7 @@ ___
 
 **●  mapToParentNames**:  *`function`*  =  pluralize(this.nameOf)
 
-*Defined in [KeyUtil.ts:146](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L146)*
+*Defined in [KeyUtil.ts:147](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L147)*
 
 
 #### Type declaration
@@ -504,7 +519,7 @@ ___
 
 **●  mapToParentUIDs**:  *`function`*  =  pluralize(this.parentUidFor)
 
-*Defined in [KeyUtil.ts:167](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L167)*
+*Defined in [KeyUtil.ts:168](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L168)*
 
 
 #### Type declaration
@@ -537,7 +552,7 @@ ___
 
 **●  mapToUIDs**:  *`function`*  =  pluralize(this.uidFor)
 
-*Defined in [KeyUtil.ts:164](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L164)*
+*Defined in [KeyUtil.ts:165](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L165)*
 
 
 #### Type declaration
@@ -570,7 +585,7 @@ ___
 
 **●  parentUidFor**:  *`function`*  =  uidify(this.extractParentKey)
 
-*Defined in [KeyUtil.ts:166](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L166)*
+*Defined in [KeyUtil.ts:167](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L167)*
 
 
 #### Type declaration
@@ -603,7 +618,7 @@ ___
 
 **●  uidFor**:  *`function`*  =  uidify(this.extractKey)
 
-*Defined in [KeyUtil.ts:163](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L163)*
+*Defined in [KeyUtil.ts:164](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L164)*
 
 
 
@@ -643,7 +658,7 @@ ___
 
 
 
-*Defined in [KeyUtil.ts:97](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L97)*
+*Defined in [KeyUtil.ts:98](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L98)*
 
 
 
@@ -674,7 +689,7 @@ ___
 
 
 
-*Defined in [KeyUtil.ts:180](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L180)*
+*Defined in [KeyUtil.ts:181](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L181)*
 
 
 
@@ -704,7 +719,7 @@ ___
 
 
 
-*Defined in [KeyUtil.ts:69](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L69)*
+*Defined in [KeyUtil.ts:70](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L70)*
 
 
 
@@ -739,7 +754,7 @@ ___
 
 
 
-*Defined in [KeyUtil.ts:55](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L55)*
+*Defined in [KeyUtil.ts:56](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L56)*
 
 
 
@@ -774,7 +789,7 @@ ___
 
 
 
-*Defined in [KeyUtil.ts:82](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L82)*
+*Defined in [KeyUtil.ts:83](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L83)*
 
 
 
@@ -809,7 +824,7 @@ ___
 
 
 
-*Defined in [KeyUtil.ts:94](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L94)*
+*Defined in [KeyUtil.ts:95](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L95)*
 
 
 
@@ -844,7 +859,7 @@ ___
 
 
 
-*Defined in [KeyUtil.ts:120](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L120)*
+*Defined in [KeyUtil.ts:121](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L121)*
 
 
 
@@ -879,7 +894,7 @@ ___
 
 
 
-*Defined in [KeyUtil.ts:124](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L124)*
+*Defined in [KeyUtil.ts:125](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L125)*
 
 
 
@@ -909,7 +924,7 @@ ___
 
 
 
-*Defined in [KeyUtil.ts:190](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L190)*
+*Defined in [KeyUtil.ts:191](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L191)*
 
 
 
@@ -940,7 +955,7 @@ ___
 
 
 
-*Defined in [KeyUtil.ts:191](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L191)*
+*Defined in [KeyUtil.ts:192](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L192)*
 
 
 
@@ -971,7 +986,7 @@ ___
 
 
 
-*Defined in [KeyUtil.ts:185](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L185)*
+*Defined in [KeyUtil.ts:186](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L186)*
 
 
 
@@ -1005,7 +1020,7 @@ ___
 
 
 
-*Defined in [KeyUtil.ts:128](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L128)*
+*Defined in [KeyUtil.ts:129](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L129)*
 
 
 
@@ -1035,7 +1050,7 @@ ___
 
 
 
-*Defined in [KeyUtil.ts:149](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L149)*
+*Defined in [KeyUtil.ts:150](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L150)*
 
 
 
@@ -1065,7 +1080,7 @@ ___
 
 
 
-*Defined in [KeyUtil.ts:194](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L194)*
+*Defined in [KeyUtil.ts:195](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L195)*
 
 
 
@@ -1098,7 +1113,7 @@ ___
 
 
 
-*Defined in [KeyUtil.ts:138](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L138)*
+*Defined in [KeyUtil.ts:139](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L139)*
 
 
 
@@ -1128,7 +1143,7 @@ ___
 
 
 
-*Defined in [KeyUtil.ts:134](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L134)*
+*Defined in [KeyUtil.ts:135](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L135)*
 
 
 
@@ -1158,7 +1173,7 @@ ___
 
 
 
-*Defined in [KeyUtil.ts:156](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L156)*
+*Defined in [KeyUtil.ts:157](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L157)*
 
 
 
@@ -1188,7 +1203,7 @@ ___
 
 
 
-*Defined in [KeyUtil.ts:145](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L145)*
+*Defined in [KeyUtil.ts:146](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L146)*
 
 
 
@@ -1218,7 +1233,7 @@ ___
 
 
 
-*Defined in [KeyUtil.ts:37](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L37)*
+*Defined in [KeyUtil.ts:38](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L38)*
 
 
 
@@ -1252,7 +1267,7 @@ ___
 
 
 
-*Defined in [KeyUtil.ts:169](https://github.com/beaulac/datastore-keyutil/blob/92c20d5/src/KeyUtil.ts#L169)*
+*Defined in [KeyUtil.ts:170](https://github.com/beaulac/datastore-keyutil/blob/598ad63/src/KeyUtil.ts#L170)*
 
 
 

@@ -9,6 +9,7 @@ import { idToString } from './key.path.elements';
 import { DatastoreKeyExtractable, KeyErrorThrower } from './key.types';
 import { KeyBuilder } from './KeyBuilder';
 import { KeyExtractor } from './KeyExtractor';
+import { keyToUID } from './keyToUid';
 import { defaultOptions, KeyUtilOptions } from './KeyUtilOptions';
 
 export class KeyUtil {
@@ -167,7 +168,7 @@ export class KeyUtil {
     public mapToParentUIDs = pluralize(this.parentUidFor);
 
     public uidToKey = (uid: string) => this.buildMixedKey(JSON.parse(uid));
-
+    public keyToUid = keyToUID;
 
     /**
      * Base64 UIDs for passing around in URLs
