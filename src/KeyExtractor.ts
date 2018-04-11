@@ -1,18 +1,17 @@
-import * as Datastore from '@google-cloud/datastore';
-import { DatastoreKey } from '@google-cloud/datastore/entity';
+import Datastore = require('@google-cloud/datastore');
+import { DatastoreKey, KeyedByProperty, KeyedBySymbol } from '@google-cloud/datastore/entity';
 import { DatastoreKeylike, isKeylike } from './isKeylike';
-import { DatastoreKeyExtractable, KeyErrorThrower } from './key.types';
+import { DatastoreKeyExtractable, KeyedEntity, KeyErrorThrower } from './key.types';
 import { KeyBuilder } from './KeyBuilder';
 
 export class KeyExtractor {
 
-    constructor(private datastore: Datastore,
-                private keyBuilder: KeyBuilder,
+    constructor(private keyBuilder: KeyBuilder,
                 private errorFn: KeyErrorThrower) {
     }
 
     public coerceKeylikeToKey(k: DatastoreKeylike): DatastoreKey {
-        return this.datastore.isKey(k)
+        return Datastore.isKey(k)
             ? k
             : this.keyBuilder.buildMixedKey((k as DatastoreKeylike).path || this.errorFn('key.notKeylike', k));
     }
@@ -31,9 +30,9 @@ export class KeyExtractor {
         return this._parentOf(this.extractKey(entity));
     }
 
-    private _extractKeyFromEntity(entity: DatastoreKeyExtractable) {
+    private _extractKeyFromEntity(entity: KeyedEntity) {
         return entity
-            ? (entity[this.datastore.KEY] || entity.key)
+            ? ((entity as KeyedBySymbol)[Datastore.KEY] || (entity as KeyedByProperty).key)
             : this.errorFn('key.nonExtractable', entity);
     }
 

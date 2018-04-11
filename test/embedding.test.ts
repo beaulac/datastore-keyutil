@@ -15,6 +15,6 @@ describe('Key Utility Embedding', () => {
         const fakeDS = new FakeDatastore();
         const keyUtil = new KeyUtil(fakeDS as any as Datastore, { embed: true });
 
-        (FakeDatastore as any).keyUtil.should.deep.equal(keyUtil);
+        (Datastore.keyUtil || {}).should.deep.equal(keyUtil);
     });
 });

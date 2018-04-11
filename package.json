@@ -1,6 +1,6 @@
 {
   "name": "datastore-keyutil",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Utility for improved manipulation of Google Datastore entity keys.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -52,7 +52,7 @@
     "tslint": "^5.8.0",
     "typedoc": "^0.9.0",
     "typedoc-plugin-markdown": "^1.0.12",
-    "typescript": "^2.6.2"
+    "typescript": "^2.7.1"
   },
   "keywords": [
     "datastore",

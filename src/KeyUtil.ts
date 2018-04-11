@@ -1,5 +1,6 @@
-import * as Datastore from '@google-cloud/datastore';
+import Datastore = require('@google-cloud/datastore');
 import * as Entity from '@google-cloud/datastore/entity';
+import { ObjOrPayload, ShortPayload } from '@google-cloud/datastore/entity';
 import * as ub64 from 'urlsafe-base64';
 import { areKeysEqual } from './areKeysEqual';
 import './AugmentedDatastore';
@@ -13,11 +14,11 @@ import { keyToUID } from './keyToUid';
 import { defaultOptions, KeyUtilOptions } from './KeyUtilOptions';
 
 export class KeyUtil {
-    public KEY_SYMBOL = this.datastore.KEY;
+    public KEY_SYMBOL = Datastore.KEY;
 
-    private keyBuilder: KeyBuilder;
+    private readonly keyBuilder: KeyBuilder;
     private keyExtractor: KeyExtractor;
-    private errorFn: KeyErrorThrower;
+    private readonly errorFn: KeyErrorThrower;
 
     constructor(private datastore: Datastore, options?: Partial<KeyUtilOptions>) {
         options = options
@@ -27,15 +28,15 @@ export class KeyUtil {
         this.errorFn = (options as KeyUtilOptions).errorFn;
 
         this.keyBuilder = new KeyBuilder(this.datastore, this.errorFn);
-        this.keyExtractor = new KeyExtractor(this.datastore, this.keyBuilder, this.errorFn);
+        this.keyExtractor = new KeyExtractor(this.keyBuilder, this.errorFn);
 
         if (options.embed) {
             (datastore as any).keyUtil = this;
-            (datastore.constructor as any).keyUtil = this;
+            Datastore.keyUtil = this;
         }
     }
 
-    public setKey<T>(entity: T, key: Entity.DatastoreKey): T {
+    public setKey = <T>(entity: T, key: Entity.DatastoreKey): T => {
         if (entity) {
             (entity as any)[this.KEY_SYMBOL] = key;
         }
@@ -185,18 +186,18 @@ export class KeyUtil {
      */
     public haveSameKey = (entity: DatastoreKeyExtractable,
                           other: DatastoreKeyExtractable) => areKeysEqual(this.extractKey(entity),
-                                                                          this.extractKey(other)
+                                                                          this.extractKey(other),
     )
 
     public hasId = (entity: DatastoreKeyExtractable, id: string) => this.idOf(entity) === id;
     public hasName = (entity: DatastoreKeyExtractable, name: string) => this.nameOf(entity) === name;
 
 
-    public indexById<E extends DatastoreKeyExtractable>(entity: E | E[]): [string, E] | Array<[string, E]> {
+    public indexById<E extends ObjOrPayload>(entity: E | E[]): [string, E] | Array<[string, E]> {
         return Array.isArray(entity) ? entity.map(this._doIndexById) : this._doIndexById(entity);
     }
 
-    private _doIndexById<E extends DatastoreKeyExtractable>(entity: E): [string, E] {
-        return [this.idOf(entity), (entity.data || entity)];
+    private _doIndexById<E extends ObjOrPayload>(entity: E): [string, E] {
+        return [this.idOf(entity), ((entity as ShortPayload<E>).data || entity)];
     }
 }

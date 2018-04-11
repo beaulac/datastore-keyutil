@@ -1,11 +1,10 @@
+import Datastore = require('@google-cloud/datastore');
 import { KeyUtil } from './KeyUtil';
 
-declare module '@google-cloud/datastore' {
-    interface Datastore {
-        keyUtil: KeyUtil;
-    }
+export interface AugmentedDatastore extends Datastore {
+    keyUtil?: KeyUtil;
+}
 
-    namespace Datastore {
-        const keyUtil: KeyUtil;
-    }
+declare module '@google-cloud/datastore' {
+    export let keyUtil: KeyUtil | undefined;
 }

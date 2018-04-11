@@ -1,10 +1,11 @@
-import { DatastoreKey } from '@google-cloud/datastore/entity';
+import { DatastoreKey, KEY_SYMBOL, KeyedBySymbol } from '@google-cloud/datastore/entity';
 import * as chai from 'chai';
 import { KeyUtil } from '../src';
 import { randomKey, randomNamedKey, testDatastore } from './test.support';
 
 const should = chai.should();
-const KEY_SYMBOL = testDatastore.KEY;
+const keySymbol: typeof KEY_SYMBOL = testDatastore.KEY;
+const missingValue: any = undefined;
 
 describe('The Key Utility', () => {
     const keyUtility = new KeyUtil(testDatastore);
@@ -92,7 +93,7 @@ describe('The Key Utility', () => {
         it(
             'calls errorFn when passed undefined',
             () => {
-                return (() => keyUtility.extractKey(undefined)).should.throw(/key.nonExtractable/);
+                return (() => keyUtility.extractKey(missingValue)).should.throw(/key.nonExtractable/);
             }
         );
 
@@ -105,7 +106,7 @@ describe('The Key Utility', () => {
         it(
             'extracts keys from entities',
             () => keyUtility.extractKey({
-                                            [KEY_SYMBOL]: theEntityKey
+                                            [keySymbol]: theEntityKey
                                         })
                             .should.deep.equal(theEntityKey)
         );
@@ -133,13 +134,13 @@ describe('The Key Utility', () => {
         it(
             'calls errorFn when passed undefined',
             () => {
-                return (() => keyUtility.idOf(undefined)).should.throw(/key.nonExtractable/);
+                return (() => keyUtility.idOf(missingValue)).should.throw(/key.nonExtractable/);
             }
         );
 
         it(
             'returns id string from valid key',
-            () => keyUtility.idOf({ [KEY_SYMBOL]: theEntityKey })
+            () => keyUtility.idOf({ [keySymbol]: theEntityKey })
                             .should.equal(theEntityKey.id)
         );
     });
@@ -148,13 +149,13 @@ describe('The Key Utility', () => {
         it(
             'calls errorFn when passed undefined',
             () => {
-                return (() => keyUtility.nameOf(undefined)).should.throw(/key.nonExtractable/);
+                return (() => keyUtility.nameOf(missingValue)).should.throw(/key.nonExtractable/);
             }
         );
 
         it(
             'returns name from named key',
-            () => keyUtility.nameOf({ [KEY_SYMBOL]: namedKey })
+            () => keyUtility.nameOf({ [keySymbol]: namedKey })
                             .should.equal(namedKey.name)
         );
     });
@@ -163,19 +164,19 @@ describe('The Key Utility', () => {
         it(
             'calls errorFn when passed undefined',
             () => {
-                return (() => keyUtility.nameOf(undefined)).should.throw(/key.nonExtractable/);
+                return (() => keyUtility.nameOf(missingValue)).should.throw(/key.nonExtractable/);
             }
         );
 
         it(
             'returns name from named key',
-            () => keyUtility.nameOf({ [KEY_SYMBOL]: namedKey })
+            () => keyUtility.nameOf({ [keySymbol]: namedKey })
                             .should.equal(namedKey.name)
         );
 
         it(
             'returns id string from numeric key',
-            () => keyUtility.idOf({ [KEY_SYMBOL]: theEntityKey })
+            () => keyUtility.idOf({ [keySymbol]: theEntityKey })
                             .should.equal(theEntityKey.id)
         );
     });
@@ -205,7 +206,7 @@ describe('The Key Utility', () => {
             const childKey = randomKey();
             childKey.parent = theEntityKey;
 
-            keyUtility.extractParentKey({ [KEY_SYMBOL]: childKey })
+            keyUtility.extractParentKey({ [keySymbol]: childKey })
                       .should.deep.equal(theEntityKey);
         });
 
@@ -228,11 +229,11 @@ describe('The Key Utility', () => {
 
     describe('#extractKeys', () => {
         it('calls errorFn when passed undefined', () => {
-            (() => keyUtility.mapToKeys(undefined as any as any[])).should.throw(/key.nonExtractable/);
+            (() => keyUtility.mapToKeys(missingValue)).should.throw(/key.nonExtractable/);
         });
 
         it('extracts keys from entities', () => {
-            const anEntity = { [KEY_SYMBOL]: theEntityKey };
+            const anEntity: KeyedBySymbol = { [keySymbol]: theEntityKey };
 
             const extractedKeys = keyUtility.mapToKeys([anEntity]);
 
